@@ -2,6 +2,7 @@
  * Created by Killgur on 16.10.2015.
  * First homework
  */
+
 println '''
 =============================================================================================
                             Вторя часть домашнего задания:
@@ -25,6 +26,7 @@ println """
 """
 
 println '---------------------------------------------------------------------------------------------\nВывод с использованием Closure:\n'
+
 def power = a**b
 def printPower = {println "${a}^${b} = ${power}, результат возведения в степень имеет тип: ${power.class.name}"}
 
@@ -39,6 +41,7 @@ printPower()
 println '---------------------------------------------------------------------------------------------'
 
 println '---------------------------------------------------------------------------------------------\nВывод с использованием передачи одного параметра в Closure:\n'
+
 def printPowerWithOneParam = {pow -> println "${a}^${b} = ${pow}, результат возведения в степень имеет тип: ${pow.class.name}"}
 
 printPowerWithOneParam(a**b)
@@ -85,20 +88,20 @@ println '-----------------------------------------------------------------------
 
 def testClass() {
     given:
-    int a = 60
-    int b = 98
+        int a = 60
+        int b = 98
     when:
-    println("Результат возведения в степень средствами Groovy a**b: ${a}^${b} = ${a**b}")
-    println("Результат возведения в степень через модуль Math: ${a}^${b} = ${Math.pow(a, b)}")
-    println("Результат возведения в степень через натуральный логарифм: ${a}^${b} = ${Math.exp(b*Math.log(a))}")
+        println("Результат возведения в степень средствами Groovy a**b: ${a}^${b} = ${a**b}")
+        println("Результат возведения в степень через модуль Math: ${a}^${b} = ${Math.pow(a, b)}")
+        println("Результат возведения в степень через натуральный логарифм: ${a}^${b} = ${Math.exp(b*Math.log(a))}")
     then:
-    assert (a**b).class == BigInteger
-    assert Math.pow(a, b).class == Double
-    assert Math.exp(b*Math.log(a)).class == Double
+        assert (a**b).class == BigInteger
+        assert Math.pow(a, b).class == Double
+        assert Math.exp(b*Math.log(a)).class == Double
 
-    assert (a**b) instanceof BigInteger
-    assert Math.pow(a, b) instanceof Double
-    assert Math.exp(b*Math.log(a)) instanceof Double
+        assert (a**b) instanceof BigInteger
+        assert Math.pow(a, b) instanceof Double
+        assert Math.exp(b*Math.log(a)) instanceof Double
 }
 
 testClass()
@@ -110,16 +113,16 @@ println '-----------------------------------------------------------------------
 
 def testPower() {
     given:
-    int a = 60
-    int b = 98
+        int a = 60
+        int b = 98
     when:
-    println("Результат возведения в степень средствами Groovy a**b: ${a}^${b} = ${a**b}")
-    println("Результат возведения в степень через модуль Math: ${a}^${b} = ${Math.pow(a, b)}")
-    println("Результат возведения в степень через натуральный логарифм: ${a}^${b} = ${Math.exp(b*Math.log(a))}")
+        println("Результат возведения в степень средствами Groovy a**b: ${a}^${b} = ${a**b}")
+        println("Результат возведения в степень через модуль Math: ${a}^${b} = ${Math.pow(a, b)}")
+        println("Результат возведения в степень через натуральный логарифм: ${a}^${b} = ${Math.exp(b*Math.log(a))}")
     then:
-    assert a**b == 1814773954166863628046361853216827279269843640202652420952977684359714281881600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-    assert Math.pow(a, b) == 1.8147739541668635E174
-    assert Math.exp(b*Math.log(a)) == 1.8147739541668317E174
+        assert a**b == 1814773954166863628046361853216827279269843640202652420952977684359714281881600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+        assert Math.pow(a, b) == 1.8147739541668635E174
+        assert Math.exp(b*Math.log(a)) == 1.8147739541668317E174
 }
 
 testPower()
