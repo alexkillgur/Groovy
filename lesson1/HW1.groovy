@@ -2,6 +2,63 @@
  * Created by Killgur on 16.10.2015.
  * First homework
  */
+println '''
+================================================================================================
+                                Первая часть домашнего задания:
+
+Нужно использовать как минимум 3 переменных разных типов (типы должны логически соответствовать)
+                     Описать в коде флаг для краткой и длинной версии интро
+================================================================================================
+'''
+
+println '---------------------------------------------------------------------------------------------\nЛинейный вывод:\n'
+
+byte age = 34
+String name = 'Алексей'
+String preferences = 'спорт, авто, рок-н-ролл'
+def experience = 11
+
+def printLongVersion = {println "Привет, меня зовут ${name}, мне ${age} года.\nПомимо программирования на Groovy :) меня инетерсуют ${preferences}.\nДо недавнего времени я работал инженером около ${experience} лет.\n"}
+def printShortVersion = {println "Привет, меня зовут ${name}, мне ${age} года.\nДо недавнего времени я работал инженером около ${experience} лет.\n"}
+
+boolean isShortVersion = false
+println 'Длинная версия:\n'
+isShortVersion ? printShortVersion() : printLongVersion()
+
+isShortVersion = true
+println 'Короткая версия:\n'
+isShortVersion ? printShortVersion() : printLongVersion()
+
+println '---------------------------------------------------------------------------------------------'
+
+println '---------------------------------------------------------------------------------------------\nСоздание простенького класса:\n'
+
+class UserIntro {
+    byte age
+    String name
+    String preferences
+    double experience
+
+    def printLongVersion = {
+        println 'Длинная версия:\n'
+        println "Привет, меня зовут ${name}, мне ${age} года.\nПомимо программирования на Groovy :) меня инетерсуют ${preferences}.\nДо недавнего времени я работал инженером ${experience} лет.\n"
+    }
+
+    def printShortVersion = {
+        println 'Короткая версия:\n'
+        println "Привет, меня зовут ${name}, мне ${age} года.\nДо недавнего времени я работал инженером ${experience} лет.\n"
+    }
+}
+
+UserIntro me = new UserIntro(age: 34, name: 'Алексей', preferences: 'спорт, авто, рок-н-ролл', experience: 10.5)
+
+isShortVersion = false
+isShortVersion ? me.printShortVersion() : me.printLongVersion()
+
+isShortVersion = true
+isShortVersion ? me.printShortVersion() : me.printLongVersion()
+
+println '---------------------------------------------------------------------------------------------'
 
 println '''
 =============================================================================================
@@ -62,15 +119,18 @@ println '-----------------------------------------------------------------------
 println '---------------------------------------------------------------------------------------------\nВывод с использованием объявления методов:\n'
 
 def powerGroovy(base, pow) {
-    return base**pow
+//    return base**pow
+    base**pow
 }
 
 def powerMath(base, pow) {
-    return Math.pow(base, pow)
+//    return Math.pow(base, pow)
+    Math.pow(base, pow)
 }
 
 def powerLog(base, pow) {
-    return Math.exp(pow*Math.log(base))
+//    return Math.exp(pow*Math.log(base))
+    Math.exp(pow*Math.log(base))
 }
 
 power = powerGroovy(a, b)
@@ -84,24 +144,29 @@ println "Результат возведения в степень через натуральный логарифм: ${a}^${b} = 
 
 println '---------------------------------------------------------------------------------------------'
 
-println '---------------------------------------------------------------------------------------------\nТест на соответствие результата типу значения:\n'
+// println '---------------------------------------------------------------------------------------------\nТест на соответствие результата типу значения:\n'
+println '---------------------------------------------------------------------------------------------\nТест:\n'
 
 def testClass() {
     given:
-        int a = 60
-        int b = 98
+    int a = 60
+    int b = 98
     when:
-        println("Результат возведения в степень средствами Groovy a**b: ${a}^${b} = ${a**b}")
-        println("Результат возведения в степень через модуль Math: ${a}^${b} = ${Math.pow(a, b)}")
-        println("Результат возведения в степень через натуральный логарифм: ${a}^${b} = ${Math.exp(b*Math.log(a))}")
+    println("Результат возведения в степень средствами Groovy a**b: ${a}^${b} = ${a**b}")
+    println("Результат возведения в степень через модуль Math: ${a}^${b} = ${Math.pow(a, b)}")
+    println("Результат возведения в степень через натуральный логарифм: ${a}^${b} = ${Math.exp(b*Math.log(a))}")
     then:
-        assert (a**b).class == BigInteger
-        assert Math.pow(a, b).class == Double
-        assert Math.exp(b*Math.log(a)).class == Double
+    assert (a**b).class == BigInteger
+    assert Math.pow(a, b).class == Double
+    assert Math.exp(b*Math.log(a)).class == Double
 
-        assert (a**b) instanceof BigInteger
-        assert Math.pow(a, b) instanceof Double
-        assert Math.exp(b*Math.log(a)) instanceof Double
+    assert (a**b) instanceof BigInteger
+    assert Math.pow(a, b) instanceof Double
+    assert Math.exp(b*Math.log(a)) instanceof Double
+
+    assert a**b == 1814773954166863628046361853216827279269843640202652420952977684359714281881600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+    assert Math.pow(a, b) == 1.8147739541668635e174
+    assert Math.exp(b*Math.log(a)) == 1.8147739541668317e174
 }
 
 testClass()
@@ -109,7 +174,7 @@ testClass()
 println '---------------------------------------------------------------------------------------------'
 
 
-println '---------------------------------------------------------------------------------------------\nТест на соответствие результата:\n'
+/* println '---------------------------------------------------------------------------------------------\nТест на соответствие результата:\n'
 
 def testPower() {
     given:
@@ -121,10 +186,10 @@ def testPower() {
         println("Результат возведения в степень через натуральный логарифм: ${a}^${b} = ${Math.exp(b*Math.log(a))}")
     then:
         assert a**b == 1814773954166863628046361853216827279269843640202652420952977684359714281881600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-        assert Math.pow(a, b) == 1.8147739541668635E174
-        assert Math.exp(b*Math.log(a)) == 1.8147739541668317E174
+        assert Math.pow(a, b) == 1.8147739541668635e174
+        assert Math.exp(b*Math.log(a)) == 1.8147739541668317e174
 }
 
 testPower()
 
-println '---------------------------------------------------------------------------------------------'
+println '---------------------------------------------------------------------------------------------' */
