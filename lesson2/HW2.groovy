@@ -86,10 +86,9 @@ println "Все модели BMW до 1970 г.в.:\n${ carsList.findAll { it.vendor == 'BMW' 
 
 //Костыль на метод collect - не понял пока до конца
 println 'Все модели BMW с объемом двигателя более 1600 см3:'
-def newLCarsList = carsList.findAll { it.vendor == 'BMW'}.collect { it.volume > 1600 ? it : null }
+//def newCarsList = carsList.findAll { it.vendor == 'BMW'}.collect { it.volume > 1600 ? it : null }
+def newCarsList = carsList.collect { it.vendor == 'BMW' && it.volume > 1600 ? it : null }
 
-newLCarsList.eachWithIndex { it, i ->
-    if (!it) newLCarsList.remove(i)
+newCarsList.each { it ->
+    if (it) { print "${it} " }
 }
-
-println newLCarsList
