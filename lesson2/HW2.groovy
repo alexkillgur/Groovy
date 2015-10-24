@@ -77,8 +77,19 @@ myCar = [
 ]
 carsList += myCar
 
-println "Первое авто белого цвета:\n${ carsList.find { it.color == 'white' } }\n"
-println "Все модели BMW:\n${ carsList.findAll { it.vendor == 'BMW' } }\n"
+println "Все авто:\n${ carsList }\n"
+println "Первое авто в списке белого цвета:\n${ carsList.find { it.color == 'white' } }\n"
 println "Все авто дороже \$100.000:\n${ carsList.findAll { it.cost > 100000 } }\n"
-println "Все авто до 1970 г.в.:\n${ carsList.findAll { it.year < 1970 } }\n"
+println "Все модели BMW:\n${ carsList.findAll { it.vendor == 'BMW' } }\n"
+println "Все авто до 1970 г.в.:\n${ carsList.findAll { it.year != null && it.year < 1970 } }\n"
+println "Все модели BMW до 1970 г.в.:\n${ carsList.findAll { it.vendor == 'BMW' && it.year < 1970 } }\n"
 
+//Костыль на метод collect - не понял пока до конца
+println 'Все модели BMW с объемом двигателя более 1600 см3:'
+def newLCarsList = carsList.findAll { it.vendor == 'BMW'}.collect { it.volume > 1600 ? it : null }
+
+newLCarsList.eachWithIndex { it, i ->
+    if (!it) newLCarsList.remove(i)
+}
+
+println newLCarsList
