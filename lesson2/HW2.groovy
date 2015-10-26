@@ -1,25 +1,85 @@
 /**
  * Created by Killgur on 24.10.2015.
  */
-def vendors = ['BMW', 'Audi', 'Mercedes', 'Volkswagen', 'Bugatti', 'Lamborgini', 'Renault', 'Pegeout', 'Citroen', 'ВАЗ', 'ЗАЗ'] // Производитель
-def colors = ['black', 'white', 'red', 'blue', 'green', 'yellow', 'grey', 'beige', 'cherry'] as Set // Цвета
-def years = [] as Set // Года выпуска
-def volumes = [] as Set // Объем двигателя
+import groovy.json.JsonOutput //Р”Р»СЏ СЃСЂР°РІРЅРµРЅРёСЏ СЂРµР·СѓР»СЊС‚Р°С‚РѕРІ
 
-def myCar = [:] // Шаблон описания авто
-def carsList = [] // Список авто
+def vendors = ['BMW', 'Audi', 'Mercedes', 'Volkswagen', 'Bugatti', 'Lamborgini', 'Renault', 'Pegeout', 'Citroen', 'Р’РђР—', 'Р—РђР—'] // РџСЂРѕРёР·РІРѕРґРёС‚РµР»СЊ
+def colors = ['black', 'white', 'red', 'blue', 'green', 'yellow', 'grey', 'beige', 'cherry'] as Set // Р¦РІРµС‚Р°
+def years = [] as Set // Р“РѕРґР° РІС‹РїСѓСЃРєР°
+def volumes = [] as Set // РћР±СЉРµРј РґРІРёРіР°С‚РµР»СЏ
 
-def yearsRange = 1905..2015 // Допустимые значения годов выпуска
-def volumesRange = 1000..4500 // Допустимые значения объема двигателя
+def myCar = [:] // РЁР°Р±Р»РѕРЅ РѕРїРёСЃР°РЅРёСЏ Р°РІС‚Рѕ
+def carsList = [] // РЎРїРёСЃРѕРє Р°РІС‚Рѕ
 
-yearsRange.each { i -> years << i } // Создаем множество годов выпуска
+def yearsRange = 1905..2015 // Р”РѕРїСѓСЃС‚РёРјС‹Рµ Р·РЅР°С‡РµРЅРёСЏ РіРѕРґРѕРІ РІС‹РїСѓСЃРєР°
+def volumesRange = 1000..4500 // Р”РѕРїСѓСЃС‚РёРјС‹Рµ Р·РЅР°С‡РµРЅРёСЏ РѕР±СЉРµРјР° РґРІРёРіР°С‚РµР»СЏ
 
-// Создаем множество объемов двигателя с шагом в 100 см3
-volumesRange.each { i ->
-    if (i % 100 == 0) { volumes << i }
+//РњРµС‚РѕРґ РґР»СЏ РїРµСЂРµРІРѕРґР° РѕР±СЉРµРєС‚Р° С‚РёРїР° ArrayList РІ С„РѕСЂРјР°С‚ JSON
+def ListToJson ( list, isNext ) {
+        def lastIndex = list.size() - 1
+        print "["
+        list.eachWithIndex { it, i ->
+                if ( i == lastIndex ) isNext = false else isNext = true
+                switch ( it ) {
+                        case LinkedHashMap:
+                                MapToJson ( it, isNext )
+                                break
+
+                        case ArrayList:
+                                ListToJson ( it, isNext )
+                                break
+
+                        case String:
+                                print "\"$it\""
+                                break
+
+                        default:
+                                print "$it"
+                                break
+                }
+                if ( isNext ) print ","
+        }
+        print "]"
 }
 
-// Создаем список авто
+//РњРµС‚РѕРґ РґР»СЏ РїРµСЂРµРІРѕРґР° РѕР±СЉРµРєС‚Р° С‚РёРїР° LinkedHashMap РІ С„РѕСЂРјР°С‚ JSON
+def MapToJson ( map, isNext ) {
+        def lastIndex = map.size() - 1
+        print "{"
+        map.eachWithIndex { key, value, i ->
+                if ( i == lastIndex ) isNext = false else isNext = true
+                switch ( value ) {
+                        case LinkedHashMap:
+                                print "\"$key\":"
+                                MapToJson ( value, isNext )
+                                break
+
+                        case ArrayList:
+                                print "\"$key\":"
+                                ListToJson ( value, isNext )
+                                break
+
+                        case String:
+                                print "\"$key\":\"$value\""
+                                break
+
+                        default:
+                                print "\"$key\":$value"
+                                break
+                }
+                if ( isNext ) print ","
+        }
+        print "}"
+}
+
+yearsRange.each { i -> years << i } // РЎРѕР·РґР°РµРј РјРЅРѕР¶РµСЃС‚РІРѕ РіРѕРґРѕРІ РІС‹РїСѓСЃРєР°
+
+// РЎРѕР·РґР°РµРј РјРЅРѕР¶РµСЃС‚РІРѕ РѕР±СЉРµРјРѕРІ РґРІРёРіР°С‚РµР»СЏ СЃ С€Р°РіРѕРј РІ 100 СЃРј3
+volumesRange.each { i ->
+        if (i % 100 == 0) { volumes << i }
+}
+
+// РЎРѕР·РґР°РµРј СЃРїРёСЃРѕРє Р°РІС‚Рѕ
 carsList = [
         [
                 vendor: vendors.find { it == 'BMW' },
@@ -38,7 +98,7 @@ carsList = [
                 cost: 40000
         ],
         [
-                vendor: vendors.find { it == 'ЗАЗ' },
+                vendor: vendors.find { it == 'Р—РђР—' },
                 model: '966',
                 year: years.find { it == 1967 },
                 color: colors.find { it == 'grey' },
@@ -48,7 +108,7 @@ carsList = [
 ]
 
 myCar = [
-        vendor: vendors.find { it == 'ВАЗ' },
+        vendor: vendors.find { it == 'Р’РђР—' },
         model: '2105',
         year: years.find { it == 1984 },
         color: colors.find { it == 'white' },
@@ -77,18 +137,54 @@ myCar = [
 ]
 carsList += myCar
 
-println "Все авто:\n${ carsList }\n"
-println "Первое авто в списке белого цвета:\n${ carsList.find { it.color == 'white' } }\n"
-println "Все авто дороже \$100.000:\n${ carsList.findAll { it.cost > 100000 } }\n"
-println "Все модели BMW:\n${ carsList.findAll { it.vendor == 'BMW' } }\n"
-println "Все авто до 1970 г.в.:\n${ carsList.findAll { it.year != null && it.year < 1970 } }\n"
-println "Все модели BMW до 1970 г.в.:\n${ carsList.findAll { it.vendor == 'BMW' && it.year < 1970 } }\n"
+println "Р’СЃРµ Р°РІС‚Рѕ:\n${ carsList }\n"
+println "РџРµСЂРІРѕРµ Р°РІС‚Рѕ РІ СЃРїРёСЃРєРµ Р±РµР»РѕРіРѕ С†РІРµС‚Р°:\n${ carsList.find { it.color == 'white' } }\n"
+println "Р’СЃРµ Р°РІС‚Рѕ РґРѕСЂРѕР¶Рµ \$100.000:\n${ carsList.findAll { it.cost > 100000 } }\n"
+println "Р’СЃРµ РјРѕРґРµР»Рё BMW:\n${ carsList.findAll { it.vendor == 'BMW' } }\n"
+println "Р’СЃРµ Р°РІС‚Рѕ РґРѕ 1970 Рі.РІ.:\n${ carsList.findAll { it.year != null && it.year < 1970 } }\n"
+println "Р’СЃРµ РјРѕРґРµР»Рё BMW РґРѕ 1970 Рі.РІ.:\n${ carsList.findAll { it.vendor == 'BMW' && it.year < 1970 } }\n"
 
-//Костыль на метод collect - не понял пока до конца
-println 'Все модели BMW с объемом двигателя более 1600 см3:'
+//РљРѕСЃС‚С‹Р»СЊ РЅР° РјРµС‚РѕРґ collect - РЅРµ РїРѕРЅСЏР» РїРѕРєР° РґРѕ РєРѕРЅС†Р°
+println 'Р’СЃРµ РјРѕРґРµР»Рё BMW СЃ РѕР±СЉРµРјРѕРј РґРІРёРіР°С‚РµР»СЏ Р±РѕР»РµРµ 1600 СЃРј3:'
 //def newCarsList = carsList.findAll { it.vendor == 'BMW'}.collect { it.volume > 1600 ? it : null }
 def newCarsList = carsList.collect { it.vendor == 'BMW' && it.volume > 1600 ? it : null }
 
 newCarsList.each { it ->
-    if (it) { print "${it} " }
+        if (it) { print "${it} " }
 }
+
+//Р”Р»СЏ СЃСЂР°РІРЅРµРЅРёСЏ СЂРµР·СѓР»СЊС‚Р°С‚РѕРІ
+/*
+def json = JsonOutput.toJson ( carsList[0] )
+println "\n\n${json}"
+
+def sizeOfTheList = carsList.size()
+json = MapToJson ( carsList[0], sizeOfTheList ? true : false )
+
+def person = [
+               firstName: 'Guillame',
+               lastName: 'Laforge',
+               address: [
+                           city: 'Paris',
+                           country: 'France',
+                           zip: 12345,
+                        ],
+               married: true,
+               conferences: [ 'JavaOne', 'Gr8conf', 5 ]
+             ]
+
+def list = ['groovy', 'java', [1, 'name', 2, [3, 'for']], [one : 1, two : 'two', three : [0, 3], for : [k : 'k', z : 33]], -25e10]
+
+def stringJson = JsonOutput.toJson ( list )
+println "\n\n$stringJson"
+
+sizeOfTheList = list.size()
+ListToJson ( list, sizeOfTheList ? true : false )
+println "\n"
+
+stringJson = JsonOutput.toJson ( person )
+println "$stringJson"
+
+def sizeOfTheMap = person.size()
+MapToJson ( person, sizeOfTheMap ? true : false )
+*/
