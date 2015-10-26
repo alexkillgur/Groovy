@@ -1,7 +1,7 @@
 /**
  * Created by Killgur on 24.10.2015.
  */
-import groovy.json.JsonOutput //Для сравнения результатов
+//import groovy.json.JsonOutput //Для сравнения результатов
 
 def vendors = ['BMW', 'Audi', 'Mercedes', 'Volkswagen', 'Bugatti', 'Lamborgini', 'Renault', 'Pegeout', 'Citroen', 'ВАЗ', 'ЗАЗ'] // Производитель
 def colors = ['black', 'white', 'red', 'blue', 'green', 'yellow', 'grey', 'beige', 'cherry'] as Set // Цвета
@@ -72,7 +72,18 @@ def MapToJson ( map, isNext ) {
         print "}"
 }
 
-yearsRange.each { i -> years << i } // Создаем множество годов выпуска
+def resultList
+
+def printMapJson (list, isNotEmpty) {
+        list.eachWithIndex { it, i ->
+                print "Авто ${ ++i } - "
+                MapToJson ( it, isNotEmpty )
+                print '\n'
+        }
+}
+
+// Создаем множество годов выпуска
+yearsRange.each { i -> years << i }
 
 // Создаем множество объемов двигателя с шагом в 100 см3
 volumesRange.each { i ->
@@ -94,7 +105,13 @@ carsList = [
                 model: 'T4',
                 year: years.find { it == 2001 },
                 color: colors.find { it == 'red' },
+                body: [
+                        type: 'Speedster',
+                        doors: 2,
+                        isPrototype: true
+                ],
                 volume: volumes.find { it == 2500 },
+                owners: [ 'Alex', 'Jim' ],
                 cost: 40000
         ],
         [
@@ -122,7 +139,13 @@ myCar = [
         model: '315',
         year: years.find { it == 1983 },
         color: colors.find { it == 'beige' },
+        body: [
+                type: 'Sedan',
+                doors: 2,
+                isPrototype: false
+        ],
         volume: volumes.find { it == 1600 },
+        owners: [ 'Jane', 'Bob' ],
         cost: 2500
 ]
 carsList.add myCar
@@ -137,23 +160,76 @@ myCar = [
 ]
 carsList += myCar
 
-println "Все авто:\n${ carsList }\n"
-println "Первое авто в списке белого цвета:\n${ carsList.find { it.color == 'white' } }\n"
-println "Все авто дороже \$100.000:\n${ carsList.findAll { it.cost > 100000 } }\n"
-println "Все модели BMW:\n${ carsList.findAll { it.vendor == 'BMW' } }\n"
-println "Все авто до 1970 г.в.:\n${ carsList.findAll { it.year != null && it.year < 1970 } }\n"
-println "Все модели BMW до 1970 г.в.:\n${ carsList.findAll { it.vendor == 'BMW' && it.year < 1970 } }\n"
+//Секция для проверки результатов парсера в формат JSON (раскомментировать 1-ю строчку)
+/*
+def stringJson = JsonOutput.toJson ( carsList[1] )
+println "$stringJson"
+MapToJson (carsList[1], true)
+println '\n'
 
-//Костыль на метод collect - не понял пока до конца
-println 'Все модели BMW с объемом двигателя более 1600 см3:'
-//def newCarsList = carsList.findAll { it.vendor == 'BMW'}.collect { it.volume > 1600 ? it : null }
-def newCarsList = carsList.collect { it.vendor == 'BMW' && it.volume > 1600 ? it : null }
+stringJson = JsonOutput.toJson ( carsList[4] )
+println "$stringJson"
+MapToJson (carsList[4], true)
+println '\n'
+*/
 
-newCarsList.each { it ->
-        if (it) { print "${it} " }
+//Вывод в формате JSON
+println "Все авто спсиком:"
+ListToJson ( carsList, carsList ? true : false )
+
+println "\n\nВсе авто построчно:"
+printMapJson ( carsList, carsList ? true : false )
+
+println "\nПервое авто в списке белого цвета:"
+resultList = carsList.find { it.color == 'white' }
+if (resultList) {
+        print 'Авто 1 - '
+        MapToJson ( resultList, true )
+        print '\n'
 }
 
-//Для сравнения результатов
+println "\nВсе авто дороже \$10.000:"
+resultList = carsList.findAll { it.cost > 10000 }
+printMapJson ( resultList, resultList ? true : false )
+
+println "\nВсе модели BMW:"
+resultList = carsList.findAll { it.vendor == 'BMW' }
+printMapJson ( resultList, resultList ? true : false )
+
+println "\nВсе авто до 1970 г.в.:"
+resultList = carsList.findAll { it.year != null && it.year < 1970 }
+printMapJson ( resultList, resultList ? true : false )
+
+println "\nВсе модели BMW до 1970 г.в.:"
+resultList = carsList.findAll { it.vendor == 'BMW' && it.year < 1970 }
+printMapJson ( resultList, resultList ? true : false )
+
+println "\nВсе модели BMW с объемом двигателя более 1600 см3:"
+resultList = carsList.collect { it.vendor == 'BMW' && it.volume > 1600 ? it : null }
+def i = 0
+resultList.each { it ->
+        if (it) {
+                print "Авто ${ ++i } - "
+                MapToJson ( it, true )
+                print '\n'
+        }
+}
+
+println "\nВсе модели BMW с типом кузова \"Седан\":"
+resultList = carsList.findAll { it ->
+        it.vendor == 'BMW' }.collect { it ->
+        it?.body?.type == 'Sedan' ? it : null
+}
+i = 0
+resultList.each { it ->
+        if (it) {
+                print "Авто ${ ++i } - "
+                MapToJson ( it, true )
+                print '\n'
+        }
+}
+
+//Секция для проверки результатов парсера в формат JSON (раскомментировать 1-ю строчку)
 /*
 def json = JsonOutput.toJson ( carsList[0] )
 println "\n\n${json}"
