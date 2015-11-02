@@ -246,7 +246,7 @@ def person = [
                            zip: 12345,
                         ],
                married: true,
-               conferences: [ 'JavaOne', 'Gr8conf', 5 ]
+               conferences: [ 'JavaOne', 'Gr8conf', 6 ]
              ]
 
 def list = ['groovy', 'java', [1, 'name', 2, [3, 'for']], [one : 1, two : 'two', three : [0, 3], for : [k : 'k', z : 33]], -25e10]

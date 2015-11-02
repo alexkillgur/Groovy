@@ -1,5 +1,5 @@
 /**
- * Created by Killgur on 31.10.2015.
+ * Created by Killgur on 31.10.2015
  */
 import groovy.transform.ToString
 
