@@ -1,20 +1,20 @@
 /**
  * Created by Killgur on 24.10.2015.
  */
-//import groovy.json.JsonOutput //Р”Р»СЏ СЃСЂР°РІРЅРµРЅРёСЏ СЂРµР·СѓР»СЊС‚Р°С‚РѕРІ
+//import groovy.json.JsonOutput //Для сравнения результатов
 
-def vendors = ['BMW', 'Audi', 'Mercedes', 'Volkswagen', 'Bugatti', 'Lamborgini', 'Renault', 'Pegeout', 'Citroen', 'Р’РђР—', 'Р—РђР—'] // РџСЂРѕРёР·РІРѕРґРёС‚РµР»СЊ
-def colors = ['black', 'white', 'red', 'blue', 'green', 'yellow', 'grey', 'beige', 'cherry'] as Set // Р¦РІРµС‚Р°
-def years = [] as Set // Р“РѕРґР° РІС‹РїСѓСЃРєР°
-def volumes = [] as Set // РћР±СЉРµРј РґРІРёРіР°С‚РµР»СЏ
+def vendors = ['BMW', 'Audi', 'Mercedes', 'Volkswagen', 'Bugatti', 'Lamborgini', 'Renault', 'Pegeout', 'Citroen', 'ВАЗ', 'ЗАЗ'] // Производитель
+def colors = ['black', 'white', 'red', 'blue', 'green', 'yellow', 'grey', 'beige', 'cherry'] as Set // Цвета
+def years = [] as Set // Года выпуска
+def volumes = [] as Set // Объем двигателя
 
-def myCar = [:] // РЁР°Р±Р»РѕРЅ РѕРїРёСЃР°РЅРёСЏ Р°РІС‚Рѕ
-def carsList = [] // РЎРїРёСЃРѕРє Р°РІС‚Рѕ
+def myCar = [:] // Шаблон описания авто
+def carsList = [] // Список авто
 
-def yearsRange = 1905..2015 // Р”РѕРїСѓСЃС‚РёРјС‹Рµ Р·РЅР°С‡РµРЅРёСЏ РіРѕРґРѕРІ РІС‹РїСѓСЃРєР°
-def volumesRange = 1000..4500 // Р”РѕРїСѓСЃС‚РёРјС‹Рµ Р·РЅР°С‡РµРЅРёСЏ РѕР±СЉРµРјР° РґРІРёРіР°С‚РµР»СЏ
+def yearsRange = 1905..2015 // Допустимые значения годов выпуска
+def volumesRange = 1000..4500 // Допустимые значения объема двигателя
 
-//РњРµС‚РѕРґ РґР»СЏ РїРµСЂРµРІРѕРґР° РѕР±СЉРµРєС‚Р° С‚РёРїР° ArrayList РІ С„РѕСЂРјР°С‚ JSON
+//Метод для перевода объекта типа ArrayList в формат JSON
 def ListToJson ( list, isNext ) {
         def lastIndex = list.size() - 1
         print "["
@@ -42,7 +42,7 @@ def ListToJson ( list, isNext ) {
         print "]"
 }
 
-//РњРµС‚РѕРґ РґР»СЏ РїРµСЂРµРІРѕРґР° РѕР±СЉРµРєС‚Р° С‚РёРїР° LinkedHashMap РІ С„РѕСЂРјР°С‚ JSON
+//Метод для перевода объекта типа LinkedHashMap в формат JSON
 def MapToJson ( map, isNext ) {
         def lastIndex = map.size() - 1
         print "{"
@@ -76,21 +76,21 @@ def resultList
 
 def printMapJson (list, isNotEmpty) {
         list.eachWithIndex { it, i ->
-                print "РђРІС‚Рѕ ${ ++i } - "
+                print "Авто ${ ++i } - "
                 MapToJson ( it, isNotEmpty )
                 print '\n'
         }
 }
 
-// РЎРѕР·РґР°РµРј РјРЅРѕР¶РµСЃС‚РІРѕ РіРѕРґРѕРІ РІС‹РїСѓСЃРєР°
+// Создаем множество годов выпуска
 yearsRange.each { i -> years << i }
 
-// РЎРѕР·РґР°РµРј РјРЅРѕР¶РµСЃС‚РІРѕ РѕР±СЉРµРјРѕРІ РґРІРёРіР°С‚РµР»СЏ СЃ С€Р°РіРѕРј РІ 100 СЃРј3
+// Создаем множество объемов двигателя с шагом в 100 см3
 volumesRange.each { i ->
         if (i % 100 == 0) { volumes << i }
 }
 
-// РЎРѕР·РґР°РµРј СЃРїРёСЃРѕРє Р°РІС‚Рѕ
+// Создаем список авто
 carsList = [
         [
                 vendor: vendors.find { it == 'BMW' },
@@ -115,7 +115,7 @@ carsList = [
                 cost: 40000
         ],
         [
-                vendor: vendors.find { it == 'Р—РђР—' },
+                vendor: vendors.find { it == 'ЗАЗ' },
                 model: '966',
                 year: years.find { it == 1967 },
                 color: colors.find { it == 'grey' },
@@ -125,7 +125,7 @@ carsList = [
 ]
 
 myCar = [
-        vendor: vendors.find { it == 'Р’РђР—' },
+        vendor: vendors.find { it == 'ВАЗ' },
         model: '2105',
         year: years.find { it == 1984 },
         color: colors.find { it == 'white' },
@@ -160,7 +160,7 @@ myCar = [
 ]
 carsList += myCar
 
-//РЎРµРєС†РёСЏ РґР»СЏ РїСЂРѕРІРµСЂРєРё СЂРµР·СѓР»СЊС‚Р°С‚РѕРІ РїР°СЂСЃРµСЂР° РІ С„РѕСЂРјР°С‚ JSON (СЂР°СЃРєРѕРјРјРµРЅС‚РёСЂРѕРІР°С‚СЊ 1-СЋ СЃС‚СЂРѕС‡РєСѓ)
+//Секция для проверки результатов парсера в формат JSON (раскомментировать 1-ю строчку)
 /*
 def stringJson = JsonOutput.toJson ( carsList[1] )
 println "$stringJson"
@@ -173,49 +173,49 @@ MapToJson (carsList[4], true)
 println '\n'
 */
 
-//Р’С‹РІРѕРґ РІ С„РѕСЂРјР°С‚Рµ JSON
-println "Р’СЃРµ Р°РІС‚Рѕ СЃРїСЃРёРєРѕРј:"
+//Вывод в формате JSON
+println "Все авто спсиком:"
 ListToJson ( carsList, carsList ? true : false )
 
-println "\n\nР’СЃРµ Р°РІС‚Рѕ РїРѕСЃС‚СЂРѕС‡РЅРѕ:"
+println "\n\nВсе авто построчно:"
 printMapJson ( carsList, carsList ? true : false )
 
-println "\nРџРµСЂРІРѕРµ Р°РІС‚Рѕ РІ СЃРїРёСЃРєРµ Р±РµР»РѕРіРѕ С†РІРµС‚Р°:"
+println "\nПервое авто в списке белого цвета:"
 resultList = carsList.find { it.color == 'white' }
 if (resultList) {
-        print 'РђРІС‚Рѕ 1 - '
+        print 'Авто 1 - '
         MapToJson ( resultList, true )
         print '\n'
 }
 
-println "\nР’СЃРµ Р°РІС‚Рѕ РґРѕСЂРѕР¶Рµ \$10.000:"
+println "\nВсе авто дороже \$10.000:"
 resultList = carsList.findAll { it.cost > 10000 }
 printMapJson ( resultList, resultList ? true : false )
 
-println "\nР’СЃРµ РјРѕРґРµР»Рё BMW:"
+println "\nВсе модели BMW:"
 resultList = carsList.findAll { it.vendor == 'BMW' }
 printMapJson ( resultList, resultList ? true : false )
 
-println "\nР’СЃРµ Р°РІС‚Рѕ РґРѕ 1970 Рі.РІ.:"
+println "\nВсе авто до 1970 г.в.:"
 resultList = carsList.findAll { it.year != null && it.year < 1970 }
 printMapJson ( resultList, resultList ? true : false )
 
-println "\nР’СЃРµ РјРѕРґРµР»Рё BMW РґРѕ 1970 Рі.РІ.:"
+println "\nВсе модели BMW до 1970 г.в.:"
 resultList = carsList.findAll { it.vendor == 'BMW' && it.year < 1970 }
 printMapJson ( resultList, resultList ? true : false )
 
-println "\nР’СЃРµ РјРѕРґРµР»Рё BMW СЃ РѕР±СЉРµРјРѕРј РґРІРёРіР°С‚РµР»СЏ Р±РѕР»РµРµ 1600 СЃРј3:"
+println "\nВсе модели BMW с объемом двигателя более 1600 см3:"
 resultList = carsList.collect { it.vendor == 'BMW' && it.volume > 1600 ? it : null }
 def i = 0
 resultList.each { it ->
         if (it) {
-                print "РђРІС‚Рѕ ${ ++i } - "
+                print "Авто ${ ++i } - "
                 MapToJson ( it, true )
                 print '\n'
         }
 }
 
-println "\nР’СЃРµ РјРѕРґРµР»Рё BMW СЃ С‚РёРїРѕРј РєСѓР·РѕРІР° \"РЎРµРґР°РЅ\":"
+println "\nВсе модели BMW с типом кузова \"Седан\":"
 resultList = carsList.findAll { it ->
         it.vendor == 'BMW' }.collect { it ->
         it?.body?.type == 'Sedan' ? it : null
@@ -223,13 +223,13 @@ resultList = carsList.findAll { it ->
 i = 0
 resultList.each { it ->
         if (it) {
-                print "РђРІС‚Рѕ ${ ++i } - "
+                print "Авто ${ ++i } - "
                 MapToJson ( it, true )
                 print '\n'
         }
 }
 
-//РЎРµРєС†РёСЏ РґР»СЏ РїСЂРѕРІРµСЂРєРё СЂРµР·СѓР»СЊС‚Р°С‚РѕРІ РїР°СЂСЃРµСЂР° РІ С„РѕСЂРјР°С‚ JSON (СЂР°СЃРєРѕРјРјРµРЅС‚РёСЂРѕРІР°С‚СЊ 1-СЋ СЃС‚СЂРѕС‡РєСѓ)
+//Секция для проверки результатов парсера в формат JSON (раскомментировать 1-ю строчку)
 /*
 def json = JsonOutput.toJson ( carsList[0] )
 println "\n\n${json}"

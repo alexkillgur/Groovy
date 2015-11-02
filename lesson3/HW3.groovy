@@ -3,42 +3,42 @@
  */
 import groovy.transform.ToString
 
-//Р’РёРґС‹ СЃС‡РµС‚С‡РёРєРѕРІ
+//Виды счетчиков
 enum CounterType {
     GAS, ELETRO_1_ZONE, ELETRO_2_ZONE, ELETRO_3_ZONE, COLD_WATER, HOT_WATER_1_TARIFF, HOT_WATER_4_TARIFF, HEAT
 }
 
-//Р’РёРґС‹ РїРѕС‚СЂРµР±РёС‚РµР»РµР№ СЌР»РµРєС‚СЂРѕСЌРЅРµСЂРіРёРё РїРѕ СЃС‡РµС‚С‡РёРєР°Рј
+//Виды потребителей электроэнергии по счетчикам
 enum ElectroConsumerType {
     TYPE_1, TYPE_2, TYPE_3, TYPE_4, TYPE_5, TYPE_6, TYPE_7
 }
 
-//Р’РёРґС‹ РїРѕС‚СЂРµР±РёС‚РµР»РµР№ РіР°Р·Р° РїРѕ СЃС‡РµС‚С‡РёРєР°Рј
+//Виды потребителей газа по счетчикам
 enum GasConsumerType {
     TYPE_1, TYPE_2
 }
 
-//Р’РёРґС‹ РїРѕС‚СЂРµР±РёС‚РµР»РµР№ РіР°Р·Р° РїРѕ РЅРѕСЂРјРµ
+//Виды потребителей газа по норме
 enum GasNormType {
     NORM_1, NORM_2, NORM_3, NORM_4, NORM_5
 }
 
-//Р’РёРґС‹ РїРѕС‚СЂРµР±РёС‚РµР»РµР№ РіРѕСЂСЏС‡РµР№ РІРѕРґС‹ РїРѕ СЃС‡РµС‚С‡РёРєР°Рј
+//Виды потребителей горячей воды по счетчикам
 enum HotWaterConsumerType {
     TYPE_1, TYPE_2
 }
 
-//Р’РёРґС‹ РїРѕС‚СЂРµР±РёС‚РµР»РµР№ РіРѕСЂСЏС‡РµР№ РІРѕРґС‹ РїРѕ РЅРѕСЂРјРµ
+//Виды потребителей горячей воды по норме
 enum HotWaterNormType {
     NORM_1, NORM_2
 }
 
-//Р’РёРґС‹ РїРѕС‚СЂРµР±РёС‚РµР»РµР№ С…РѕР»РѕРґРЅРѕР№ РІРѕРґС‹ РїРѕ РЅРѕСЂРјРµ
+//Виды потребителей холодной воды по норме
 enum ColdWaterNormType {
     NORM_1, NORM_2
 }
 
-//РўСЂРµР№С‚, СЃРѕРґРµСЂР¶Р°С‰РёР№ Р°РґСЂРµСЃ РїР»Р°С‚РµР»СЊС‰РёРєР°/РєРІР°СЂС‚РёСЂС‹/РѕСЂРіР°РЅРёР·Р°С†РёРё
+//Трейт, содержащий адрес плательщика/квартиры/организации
 trait AddressT {
     String index
     String country
@@ -49,21 +49,21 @@ trait AddressT {
     String numFlat
 
     String getFullAddress() {
-        def strAddr = "РРЅРґРµРєСЃ: $index, РЎС‚СЂР°РЅР°: $country, РћР±Р»Р°СЃС‚СЊ: $region, Рі. $city, СѓР». $street, Рґ. $numHouse"
+        def strAddr = "Индекс: $index, Страна: $country, Область: $region, г. $city, ул. $street, д. $numHouse"
         if ( numFlat )
-            strAddr += ", РєРІ. $numFlat"
+            strAddr += ", кв. $numFlat"
         return strAddr
     }
 
     String getShortAddress() {
-        def strAddr = "$index, Рі. $city, СѓР». $street, Рґ. $numHouse"
+        def strAddr = "$index, г. $city, ул. $street, д. $numHouse"
         if ( numFlat )
-            strAddr += ", РєРІ. $numFlat"
+            strAddr += ", кв. $numFlat"
         return strAddr
     }
 }
 
-//РўСЂРµР№С‚, СЃРѕРґРµСЂР¶Р°С‰РёР№ Р±Р°РЅРєРѕРІСЃРєРёРµ СЂРµРєРІРёР·РёС‚С‹
+//Трейт, содержащий банковские реквизиты
 trait BankT {
     String nameBank
     String checkingAccount
@@ -71,28 +71,28 @@ trait BankT {
     String ZKPO
 
     String getFullRequisite() {
-        "РќР°РёРјРµРЅРѕРІР°РЅРёРµ: $nameBank, СЂ/СЂ: $checkingAccount, РњР¤Рћ: $MFO, Р•Р”Р РџРћРЈ (Р—РљРџРћ): $ZKPO"
+        "Наименование: $nameBank, р/р: $checkingAccount, МФО: $MFO, ЕДРПОУ (ЗКПО): $ZKPO"
     }
 }
 
-//РРЅС‚РµСЂС„РµР№СЃ РґР»СЏ РїРµС‡Р°С‚Рё СЃ Р·Р°РіР»СѓС€РєРѕР№ РІ РѕР±С…РѕРґ С‚СЂРµР№С‚РѕРІ
+//Интерфейс для печати с заглушкой в обход трейтов
 trait PrintClassT {
     def getPrintName() {
         this
     }
 }
 
-//РћР±С‰РёР№ РёРЅС‚РµСЂС„РµР№СЃ СЃС‡РµС‚С‡РёРєР°
+//Общий интерфейс счетчика
 interface CounterIF {
-    //РЈСЃС‚Р°РЅРѕРІРєР° С‚Р°СЂРёС„РЅРѕР№ СЃРµС‚РєРё Рё РёСЃРїРѕР»СЊР·СѓРµРјС‹С… Р»РёРјРёС‚РѕРІ, РµСЃР»Рё РµСЃС‚СЊ
+    //Установка тарифной сетки и используемых лимитов, если есть
     def setTariff()
-    //РРЅС‚РµСЂС„РµР№СЃ РґР»СЏ РїРѕРґСЃС‡РµС‚Р° СЃС‚РѕРёРјРѕСЃС‚Рё СѓСЃР»СѓРі. Р—Р° Р°Р»РіРѕСЂРёС‚Рј РїРѕРґСЃС‡РµС‚Р° РїРѕ РјРЅРѕРіРѕС‚Р°СЂРёС„РЅС‹Рј СЃС‡РµС‚С‡РёРєР°Рј СѓС‚РІРµСЂР¶РґР°С‚СЊ РЅРµ Р±РµСЂСѓСЃСЊ, С‚.Рє. РЅРµ СЃС‚Р°Р»РєРёРІР°Р»СЃСЏ :)
+    //Интерфейс для подсчета стоимости услуг. За алгоритм подсчета по многотарифным счетчикам утверждать не берусь, т.к. не сталкивался :)
     def getAmount()
 }
 
-//РўСЂРµР№С‚ РґР»СЏ РѕРґРЅРѕС‚Р°СЂРёС„РЅРѕРіРѕ СЌР»РµРєС‚СЂРѕСЃС‚С‡РµС‡РёРєР°
+//Трейт для однотарифного электростчечика
 trait OneElectroZoneT {
-    //Р’РѕР·РІСЂР°С‚ Р·РЅР°С‡РµРЅРёСЏ СЃС‚РѕРёРјРѕСЃС‚Рё СѓСЃР»СѓРіРё
+    //Возврат значения стоимости услуги
     def getAmount() {
         setTariff()
 
@@ -105,9 +105,9 @@ trait OneElectroZoneT {
 
 }
 
-//РўСЂРµР№С‚ РґР»СЏ РґРІСѓС…С‚Р°СЂРёС„РЅРѕРіРѕ СЌР»РµРєС‚СЂРѕСЃС‚С‡РµС‡РёРєР°
+//Трейт для двухтарифного электростчечика
 trait TwoElectroZoneT implements OneElectroZoneT {
-    //Р’РѕР·РІСЂР°С‚ Р·РЅР°С‡РµРЅРёСЏ СЃС‚РѕРёРјРѕСЃС‚Рё СѓСЃР»СѓРіРё
+    //Возврат значения стоимости услуги
     def getAmount() {
         def sum = super.getAmount()
 
@@ -119,9 +119,9 @@ trait TwoElectroZoneT implements OneElectroZoneT {
     }
 }
 
-//РўСЂРµР№С‚ РґР»СЏ С‚СЂРµС…С‚Р°СЂРёС„РЅРѕРіРѕ СЌР»РµРєС‚СЂРѕСЃС‚С‡РµС‡РёРєР°
+//Трейт для трехтарифного электростчечика
 trait ThreeElectroZoneT implements TwoElectroZoneT {
-    //Р’РѕР·РІСЂР°С‚ Р·РЅР°С‡РµРЅРёСЏ СЃС‚РѕРёРјРѕСЃС‚Рё СѓСЃР»СѓРіРё
+    //Возврат значения стоимости услуги
     def getAmount() {
         def sum = super.getAmount()
 
@@ -133,26 +133,26 @@ trait ThreeElectroZoneT implements TwoElectroZoneT {
     }
 }
 
-//РљР»Р°СЃСЃ РґР»СЏ РѕР±С‰РµРіРѕ РѕРїРёСЃР°РЅРёСЏ СЃС‡РµС‚С‡РёРєР°
+//Класс для общего описания счетчика
 @ToString ( includeNames = true, includeFields = true )
 abstract class Counter {
-    CounterType type //РўРёРї СЃС‡РµС‚С‡РёРєР°
-    String model //РњРѕРґРµР»СЊ СЃС‡РµС‚С‡РёРєР°
-    int number //РќРѕРјРµСЂ СЃС‡РµС‚С‡РёРєР°
-    def tariff = [] //РЎРµС‚РєР° С‚Р°СЂРёС„РѕРІ
-    def ind_before //РџСЂРµРґС‹РґСѓС‰РёРµ РїРѕРєР°Р·Р°РЅРёСЏ СЃС‡РµС‚С‡РёРєР°
-    def ind_now //РўРµРєСѓС‰РёРµ РїРѕРєР°Р·Р°РЅРёСЏ СЃС‡РµС‚С‡РёРєР°
+    CounterType type //Тип счетчика
+    String model //Модель счетчика
+    int number //Номер счетчика
+    def tariff = [] //Сетка тарифов
+    def ind_before //Предыдущие показания счетчика
+    def ind_now //Текущие показания счетчика
 }
 
-//Р­Р»РµРєС‚СЂРёС‡РµСЃРєРёР№ СЃС‡РµС‚С‡РёРє
+//Электрический счетчик
 @ToString ( includeNames = true, includeFields = true, includeSuper = true )
 abstract class ElectroCounter extends Counter implements CounterIF, PrintClassT {
-    def limitation = [] //РЎРµС‚РєР° Р»РёРјРёС‚РѕРІ
+    def limitation = [] //Сетка лимитов
 
-    ElectroConsumerType electroConsumerType //РўРёРї СЌР»РµРєС‚СЂРѕРїРѕС‚СЂРµР±РёС‚РµР»СЏ
-    boolean isCity //РљРІР°СЂС‚РёСЂР° РЅР°С…РѕРґРёС‚СЃСЏ РІ РіРѕСЂРѕРґРµ РёР»Рё СЃРµР»Рµ
+    ElectroConsumerType electroConsumerType //Тип электропотребителя
+    boolean isCity //Квартира находится в городе или селе
 
-    //Р—Р°РґР°РЅРёРµ С‚Р°СЂРёС„РЅРѕР№ СЃРµС‚РєРё Рё Р»РёРјРёС‚РѕРІ РІ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё РѕС‚ РєР°С‚РµРіРѕСЂРёРё РїРѕС‚СЂРµР±РёС‚РµР»РµР№ СЌР»РµРєС‚СЂРѕСЌРЅРµСЂРіРёРё
+    //Задание тарифной сетки и лимитов в зависимости от категории потребителей электроэнергии
     def setTariff() {
         switch ( electroConsumerType ) {
             case ElectroConsumerType.TYPE_1:
@@ -164,7 +164,7 @@ abstract class ElectroCounter extends Counter implements CounterIF, PrintClassT 
                 tariff = [ 0.456, 0.789, 0.147 ]
                 break
             case ElectroConsumerType.TYPE_3:
-                // Р”Рѕ 09.2015 РґСЂСѓРіРѕР№ С‚Р°СЂРёС„
+                // До 09.2015 другой тариф
                 if ( Bill.date[Calendar.YEAR] == 2015 && Bill.date[Calendar.MONTH] <= 8) {
                     limitation = isCity ? [ 100, 600 ] : [ 150, 600 ]
                     tariff = [ 0.456, 0.789, 0.147 ]
@@ -175,7 +175,7 @@ abstract class ElectroCounter extends Counter implements CounterIF, PrintClassT 
                 }
                 break
             case ElectroConsumerType.TYPE_4:
-                // Р”Рѕ 09.2015 РґСЂСѓРіРѕР№ С‚Р°СЂРёС„
+                // До 09.2015 другой тариф
                 if ( Bill.date[Calendar.YEAR] == 2015 && Bill.date[Calendar.MONTH] <= 8) {
                     limitation = isCity ? [ 100, 600 ] : [ 150, 600 ]
                     tariff = [ 0.456, 0.789, 0.1479 ]
@@ -200,7 +200,7 @@ abstract class ElectroCounter extends Counter implements CounterIF, PrintClassT 
         }
     }
 
-    //Р—Р°РїРѕР»РЅРµРЅРёРµ РјР°СЃСЃРёРІР° РёСЃРїРѕР»СЊР·РѕРІР°РЅРЅС‹С… РєР’С‚ СЃРѕРіР»Р°СЃРЅРѕ С‚Р°СЂРёС„РЅРѕР№ СЃРµС‚РєРµ Рё Р»РёРјРёС‚Р°Рј (СЃРєРѕР»СЊРєРѕ Р±С‹Р»Рѕ РёСЃРїРѕР»СЊР·РѕРІР°РЅРѕ РІ РєР°Р¶РґРѕРј РѕС‚СЂРµР·РєРµ Р»РёРјРёС‚РѕРІ)
+    //Заполнение массива использованных кВт согласно тарифной сетке и лимитам (сколько было использовано в каждом отрезке лимитов)
     def fillUsed( usedElectro, used ) {
         switch ( limitation.size() ) {
             case 1:
@@ -233,7 +233,7 @@ abstract class ElectroCounter extends Counter implements CounterIF, PrintClassT 
         }
     }
 
-    //РћР±С…РѕРґ РїРѕ СЃРµС‚РєРµ РёСЃРїРѕР»СЊР·РѕРІР°РЅРЅС‹С… РєР’С‚ Рё РІРѕР·РІСЂР°С‰РµРЅРёРµ СЃС‚РѕРёРјРѕСЃС‚Рё РІ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё РѕС‚ Р»РёРјРёС‚РѕРІ Рё РєРѕСЌС„С„РёС†РёРµРЅС‚Р°
+    //Обход по сетке использованных кВт и возвращение стоимости в зависимости от лимитов и коэффициента
     def cycleOnUsed( used, factor ) {
         def sum = 0
         used.eachWithIndex { it, i ->
@@ -242,53 +242,53 @@ abstract class ElectroCounter extends Counter implements CounterIF, PrintClassT 
         return sum
     }
 
-    //Р’РѕР·РІСЂР°С‚ Р·РЅР°С‡РµРЅРёСЏ СЃС‚РѕРёРјРѕСЃС‚Рё СѓСЃР»СѓРіРё РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ
+    //Возврат значения стоимости услуги по умолчанию
     def getAmount() {
-        println 'РџРѕРєР°Р·Р°РЅРёСЏ СЌР»РµРєС‚СЂРёС‡РµСЃРєРѕРіРѕ СЃС‡РµС‚С‡РёРєР° РЅРµ РїСЂРµРґРѕСЃС‚Р°РІР»РµРЅС‹'
+        println 'Показания электрического счетчика не предоставлены'
         return 0
     }
 }
 
-//РћРґРЅРѕС‚Р°СЂРёС„РЅС‹Р№ СЌР»РµРєС‚СЂРёС‡РµСЃРєРёР№ СЃС‡РµС‚С‡РёРє
+//Однотарифный электрический счетчик
 @ToString ( includeNames = true, includeFields = true, includeSuper = true )
 class OneZoneElCounter extends ElectroCounter {
-    def used_1 = [] //РњР°СЃСЃРёРІ РёСЃРїРѕР»СЊР·РѕРІР°РЅРЅС‹С… РєР’С‚ СЃРѕРіР»Р°СЃРЅРѕ Р»РёРјРёС‚Р°Рј РґР»СЏ РїРѕРґСЃС‡РµС‚Р° СЃС‚РѕРёРјРѕСЃС‚Рё СЃРѕРіР»Р°СЃРЅРѕ С‚Р°СЂРёС„Р°Рј
-    def ind_1_before //РџСЂРµРґС‹РґСѓС‰РёРµ РїРѕРєР°Р·Р°РЅРёСЏ СЃС‡РµС‚С‡РёРєР° РїРѕ 1-Р№ Р·РѕРЅРµ
-    def ind_1_now //РўРµРєСѓС‰РёРµ РїРѕРєР°Р·Р°РЅРёСЏ СЃС‡РµС‚С‡РёРєР° РїРѕ 1-Р№ Р·РѕРЅРµ
-    def usedElectro_1 //Р’СЃРµРіРѕ РєР’С‚ РёСЃРїРѕР»СЊР·РѕРІР°РЅРѕ
-    def zoneElFactor = [1] //РљРѕСЌС„С„РёС†РёРµРЅС‚С‹ РґР»СЏ РѕРґРЅРѕС‚Р°СЂРёС„РЅРѕРіРѕ СЃС‡РµС‚С‡РёРєР°
+    def used_1 = [] //Массив использованных кВт согласно лимитам для подсчета стоимости согласно тарифам
+    def ind_1_before //Предыдущие показания счетчика по 1-й зоне
+    def ind_1_now //Текущие показания счетчика по 1-й зоне
+    def usedElectro_1 //Всего кВт использовано
+    def zoneElFactor = [1] //Коэффициенты для однотарифного счетчика
 }
 
-//Р”РІСѓС…С‚Р°СЂРёС„РЅС‹Р№ СЌР»РµРєС‚СЂРёС‡РµСЃРєРёР№ СЃС‡РµС‚С‡РёРє
+//Двухтарифный электрический счетчик
 @ToString ( includeNames = true, includeFields = true, includeSuper = true )
 class TwoZoneElCounter extends OneZoneElCounter {
-    def used_2 = [] //РўРµРѕСЂРµС‚РёС‡РµСЃРєРё РјРѕР¶РЅРѕ РѕР±РѕР№С‚РёСЃСЊ РѕРґРЅРёРј РјР°СЃСЃРёРІРѕРј РІ СЃСѓРїРµСЂРєР»Р°СЃСЃРµ. РџРѕРєР° РѕСЃС‚Р°РІРёР»
-    def ind_2_before //РџСЂРµРґС‹РґСѓС‰РёРµ РїРѕРєР°Р·Р°РЅРёСЏ СЃС‡РµС‚С‡РёРєР° РїРѕ 2-Р№ Р·РѕРЅРµ
-    def ind_2_now //РўРµРєСѓС‰РёРµ РїРѕРєР°Р·Р°РЅРёСЏ СЃС‡РµС‚С‡РёРєР° РїРѕ 2-Р№ Р·РѕРЅРµ
-    def usedElectro_2 //РўРµРѕСЂРµС‚РёС‡РµСЃРєРё РјРѕР¶РЅРѕ РѕР±РѕР№С‚РёСЃСЊ РѕРґРЅРёРј Р·РЅР°С‡РµРЅРёРµРј РІ СЃСѓРїРµСЂРєР»Р°СЃСЃРµ. РџРѕРєР° РѕСЃС‚Р°РІРёР»
-    def zoneElFactor = [1, 0.7] //РљРѕСЌС„С„РёС†РёРµРЅС‚С‹ РґР»СЏ РґРІСѓС…С‚Р°СЂРёС„РЅРѕРіРѕ СЃС‡РµС‚С‡РёРєР°
+    def used_2 = [] //Теоретически можно обойтись одним массивом в суперклассе. Пока оставил
+    def ind_2_before //Предыдущие показания счетчика по 2-й зоне
+    def ind_2_now //Текущие показания счетчика по 2-й зоне
+    def usedElectro_2 //Теоретически можно обойтись одним значением в суперклассе. Пока оставил
+    def zoneElFactor = [1, 0.7] //Коэффициенты для двухтарифного счетчика
 }
 
-//РўСЂРµС…С‚Р°СЂРёС„РЅС‹Р№ СЌР»РµРєС‚СЂРёС‡РµСЃРєРёР№ СЃС‡РµС‚С‡РёРє
+//Трехтарифный электрический счетчик
 @ToString ( includeNames = true, includeFields = true, includeSuper = true )
 class ThreeZoneElCounter extends TwoZoneElCounter {
-    def used_3 = [] //РўРµРѕСЂРµС‚РёС‡РµСЃРєРё РјРѕР¶РЅРѕ РѕР±РѕР№С‚РёСЃСЊ РѕРґРЅРёРј РјР°СЃСЃРёРІРѕРј РІ СЃСѓРїРµСЂРєР»Р°СЃСЃРµ. РџРѕРєР° РѕСЃС‚Р°РІРёР»
-    def ind_3_before //РџСЂРµРґС‹РґСѓС‰РёРµ РїРѕРєР°Р·Р°РЅРёСЏ СЃС‡РµС‚С‡РёРєР° РїРѕ 3-Р№ Р·РѕРЅРµ
-    def ind_3_now //РўРµРєСѓС‰РёРµ РїРѕРєР°Р·Р°РЅРёСЏ СЃС‡РµС‚С‡РёРєР° РїРѕ 3-Р№ Р·РѕРЅРµ
-    def usedElectro_3 //РўРµРѕСЂРµС‚РёС‡РµСЃРєРё РјРѕР¶РЅРѕ РѕР±РѕР№С‚РёСЃСЊ РѕРґРЅРёРј Р·РЅР°С‡РµРЅРёРµРј РІ СЃСѓРїРµСЂРєР»Р°СЃСЃРµ. РџРѕРєР° РѕСЃС‚Р°РІРёР»
-    def zoneElFactor = [1.5, 1, 0.7] //РљРѕСЌС„С„РёС†РёРµРЅС‚С‹ РґР»СЏ С‚СЂРµС…С‚Р°СЂРёС„РЅРѕРіРѕ СЃС‡РµС‚С‡РёРєР°
+    def used_3 = [] //Теоретически можно обойтись одним массивом в суперклассе. Пока оставил
+    def ind_3_before //Предыдущие показания счетчика по 3-й зоне
+    def ind_3_now //Текущие показания счетчика по 3-й зоне
+    def usedElectro_3 //Теоретически можно обойтись одним значением в суперклассе. Пока оставил
+    def zoneElFactor = [1.5, 1, 0.7] //Коэффициенты для трехтарифного счетчика
 }
 
-//Р“Р°Р·РѕРІС‹Р№ СЃС‡РµС‚С‡РёРє
+//Газовый счетчик
 @ToString ( includeNames = true, includeFields = true, includeSuper = true )
 class GasCounter extends Counter implements CounterIF {
-    def limitation = [] //РЎРµС‚РєР° Р»РёРјРёС‚РѕРІ
-    def usedGas //Р’СЃРµРіРѕ Рј3 РёСЃРїРѕР»СЊР·РѕРІР°РЅРѕ
-    def used = [] //РњР°СЃСЃРёРІ РёСЃРїРѕР»СЊР·РѕРІР°РЅРЅС‹С… Рј3 СЃРѕРіР»Р°СЃРЅРѕ Р»РёРјРёС‚Р°Рј РґР»СЏ РїРѕРґСЃС‡РµС‚Р° СЃС‚РѕРёРјРѕСЃС‚Рё СЃРѕРіР»Р°СЃРЅРѕ С‚Р°СЂРёС„Р°Рј
+    def limitation = [] //Сетка лимитов
+    def usedGas //Всего м3 использовано
+    def used = [] //Массив использованных м3 согласно лимитам для подсчета стоимости согласно тарифам
 
-    GasConsumerType gasConsumerType //РўРёРї С‚СЂРµР±РёС‚РµР»СЏ РіР°Р·Р°
+    GasConsumerType gasConsumerType //Тип требителя газа
 
-    //Р—Р°РґР°РЅРёРµ С‚Р°СЂРёС„РЅРѕР№ СЃРµС‚РєРё Рё Р»РёРјРёС‚РѕРІ РІ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё РѕС‚ РєР°С‚РµРіРѕСЂРёРё РїРѕС‚СЂРµР±РёС‚РµР»РµР№ РіР°Р·Р°
+    //Задание тарифной сетки и лимитов в зависимости от категории потребителей газа
     def setTariff() {
         switch ( gasConsumerType ) {
             case GasConsumerType.TYPE_1:
@@ -297,13 +297,13 @@ class GasCounter extends Counter implements CounterIF {
                 used << usedGas
                 break
             case GasConsumerType.TYPE_2:
-                // РўР°СЂРёС„ СЃ РјР°СЏ РїРѕ СЃРµРЅС‚СЏР±СЂСЊ
+                // Тариф с мая по сентябрь
                 if ( Bill.date[Calendar.MONTH] >= 4 && Bill.date[Calendar.MONTH] <= 8) {
                     limitation = [ 0 ]
                     tariff = [ 7.188 ]
                     used << usedGas
                 }
-                // РўР°СЂРёС„ СЃ РѕРєС‚СЏР±СЂСЏ РїРѕ Р°РїСЂРµР»СЊ
+                // Тариф с октября по апрель
                 else {
                     limitation = [ 200 ]
                     tariff = [ 3.6, 7.188 ]
@@ -315,7 +315,7 @@ class GasCounter extends Counter implements CounterIF {
         }
     }
 
-    //Р’РѕР·РІСЂР°С‚ Р·РЅР°С‡РµРЅРёСЏ СЃС‚РѕРёРјРѕСЃС‚Рё СѓСЃР»СѓРіРё
+    //Возврат значения стоимости услуги
     def getAmount() {
         used = []
         usedGas = ind_now - ind_before
@@ -329,18 +329,18 @@ class GasCounter extends Counter implements CounterIF {
     }
 }
 
-//РЎС‡РµС‚С‡РёРє С…РѕР»РѕРґРЅРѕР№ РІРѕРґС‹
+//Счетчик холодной воды
 @ToString ( includeNames = true, includeFields = true, includeSuper = true )
 class ColdWaterCounter extends Counter implements CounterIF {
-    def usedColdWater //Р’СЃРµРіРѕ Рј3 РёСЃРїРѕР»СЊР·РѕРІР°РЅРѕ
-    boolean isWaterOut //Р’РѕРґРѕРѕС‚РІРµРґРµРЅРёРµ
+    def usedColdWater //Всего м3 использовано
+    boolean isWaterOut //Водоотведение
 
-    //Р—Р°РґР°РЅРёРµ С‚Р°СЂРёС„РЅРѕР№ СЃРµС‚РєРё
+    //Задание тарифной сетки
     def setTariff() {
         tariff = isWaterOut ? [ 4.092 ] : [ 4.284 ]
     }
 
-    //Р’РѕР·РІСЂР°С‚ Р·РЅР°С‡РµРЅРёСЏ СЃС‚РѕРёРјРѕСЃС‚Рё СѓСЃР»СѓРіРё
+    //Возврат значения стоимости услуги
     def getAmount() {
         usedColdWater = ind_now - ind_before
         setTariff()
@@ -349,16 +349,16 @@ class ColdWaterCounter extends Counter implements CounterIF {
     }
 }
 
-//РЎС‡РµС‚С‡РёРє РіРѕСЂСЏС‡РµР№ РІРѕРґС‹
+//Счетчик горячей воды
 @ToString ( includeNames = true, includeFields = true, includeSuper = true )
 class HotWaterCounter extends Counter implements CounterIF {
-    def usedHotWater //Р’СЃРµРіРѕ Рј3 РёСЃРїРѕР»СЊР·РѕРІР°РЅРѕ
-    def used = [] //РњР°СЃСЃРёРІ РёСЃРїРѕР»СЊР·РѕРІР°РЅРЅС‹С… Рј3 СЃРѕРіР»Р°СЃРЅРѕ РїРѕРєР°Р·Р°РЅРёСЏРј РјРЅРѕРіРѕС‚Р°СЂРёС„РЅРѕРіРѕ СЃС‡РµС‚С‡РёРєР°
-    def zoneHotWaterFactor = [1, 0.9, 0.7, 0 ] //РљРѕСЌС„С„РёС†РёРµРЅС‚С‹ РґР»СЏ С‡РµС‚С‹СЂРµС…С‚Р°СЂРёС„РЅРѕРіРѕ СЃС‡РµС‚С‡РёРєР°
+    def usedHotWater //Всего м3 использовано
+    def used = [] //Массив использованных м3 согласно показаниям многотарифного счетчика
+    def zoneHotWaterFactor = [1, 0.9, 0.7, 0 ] //Коэффициенты для четырехтарифного счетчика
 
-    HotWaterConsumerType hotWaterConsumerType //РўРёРї С‚СЂРµР±РёС‚РµР»СЏ РіРѕСЂСЏС‡РµР№ РІРѕРґС‹
+    HotWaterConsumerType hotWaterConsumerType //Тип требителя горячей воды
 
-    //Р—Р°РґР°РЅРёРµ С‚Р°СЂРёС„РЅРѕР№ СЃРµС‚РєРё
+    //Задание тарифной сетки
     def setTariff() {
         switch ( hotWaterConsumerType ) {
             case HotWaterConsumerType.TYPE_1:
@@ -371,15 +371,15 @@ class HotWaterCounter extends Counter implements CounterIF {
         if ( type == CounterType.HOT_WATER_4_TARIFF ) tariff << 5.676
     }
 
-    //Р’РѕР·РІСЂР°С‚ Р·РЅР°С‡РµРЅРёСЏ СЃС‚РѕРёРјРѕСЃС‚Рё СѓСЃР»СѓРіРё
+    //Возврат значения стоимости услуги
     def getAmount() {
         setTariff()
         switch ( type ) {
-        //РћР±С‹С‡РЅС‹Р№ СЃС‡РµС‚С‡РёРє
+        //Обычный счетчик
             case CounterType.HOT_WATER_1_TARIFF:
                 usedHotWater = ind_now - ind_before
                 return usedHotWater*tariff[0]
-        //РњРЅРѕРіРѕС‚Р°СЂРёС„РЅС‹Р№ СЃС‡РµС‚С‡РёРє
+        //Многотарифный счетчик
             case CounterType.HOT_WATER_4_TARIFF:
                 def sum = 0
                 used.eachWithIndex { it, i ->
@@ -391,17 +391,17 @@ class HotWaterCounter extends Counter implements CounterIF {
     }
 }
 
-//РЎС‡РµС‚С‡РёРє С‚РµРїР»Р°
+//Счетчик тепла
 @ToString ( includeNames = true, includeFields = true, includeSuper = true )
 class HeatCounter extends Counter implements CounterIF {
-    def usedHeat //Р’СЃРµРіРѕ Р“РєР°Р» РёСЃРїРѕР»СЊР·РѕРІР°РЅРѕ
+    def usedHeat //Всего Гкал использовано
 
-    //Р—Р°РґР°РЅРёРµ С‚Р°СЂРёС„РЅРѕР№ СЃРµС‚РєРё
+    //Задание тарифной сетки
     def setTariff() {
         tariff = [ 642.09 ]
     }
 
-    //Р’РѕР·РІСЂР°С‚ Р·РЅР°С‡РµРЅРёСЏ СЃС‚РѕРёРјРѕСЃС‚Рё СѓСЃР»СѓРіРё
+    //Возврат значения стоимости услуги
     def getAmount() {
         usedHeat = ind_now - ind_before
         setTariff()
@@ -410,29 +410,29 @@ class HeatCounter extends Counter implements CounterIF {
     }
 }
 
-//РћР±РѕР±С‰РµРЅРЅС‹Р№ РєР»Р°СЃСЃ РЅРѕСЂРј РїРѕС‚СЂРµР±Р»РµРЅРёСЏ
+//Обобщенный класс норм потребления
 @ToString ( includeNames = true, includeFields = true )
 abstract class Norm {
-    def norm //РќРѕСЂРјР°
-    def tariff //РўР°СЂРёС„
+    def norm //Норма
+    def tariff //Тариф
 
-    //Р’РѕР·РІСЂР°С‚ Р·РЅР°С‡РµРЅРёСЏ СЃС‚РѕРёРјРѕСЃС‚Рё СѓСЃР»СѓРіРё
+    //Возврат значения стоимости услуги
     def getAmount() {
         setTariff()
         return norm*tariff
     }
 }
 
-//РќРѕСЂРјР° РіР°Р·Р°
+//Норма газа
 @ToString ( includeNames = true, includeFields = true, includeSuper = true )
 class GasNorm extends Norm implements CounterIF {
-    int numRegistration //РљРѕР»РёС‡РµСЃС‚РІРѕ РїСЂРѕРїРёСЃР°РЅРЅС‹С… Р¶РёС‚РµР»РµР№
-    int numAnimal //РљРѕР»РёС‡РµСЃС‚РІРѕ Р¶РёРІРѕС‚РЅС‹С…
-    def heatArea //РћС‚Р°РїР»РёРІР°РµРјР°СЏ РїР»РѕС‰Р°РґСЊ
+    int numRegistration //Количество прописанных жителей
+    int numAnimal //Количество животных
+    def heatArea //Отапливаемая площадь
 
-    GasNormType gasNormType //РўРёРї РЅРѕСЂРјС‹
+    GasNormType gasNormType //Тип нормы
 
-    //Р—Р°РґР°РЅРёРµ С‚Р°СЂРёС„РЅРѕР№ СЃРµС‚РєРё (РЅРѕСЂРјС‹)
+    //Задание тарифной сетки (нормы)
     def setTariff() {
         tariff = 7.188
         switch ( gasNormType ) {
@@ -446,11 +446,11 @@ class GasNorm extends Norm implements CounterIF {
                 norm = 9*numRegistration
                 break
             case GasNormType.NORM_4:
-                // РўР°СЂРёС„ СЃ РјР°СЏ РїРѕ СЃРµРЅС‚СЏР±СЂСЊ
+                // Тариф с мая по сентябрь
                 if ( Bill.date[Calendar.MONTH] >= 4 && Bill.date[Calendar.MONTH] <= 8) {
                     norm = ( numRegistration + numAnimal <= 3 ) ? 70 : ( 70 + 11*( numRegistration + numAnimal - 3 ) )
                 }
-                // РўР°СЂРёС„ СЃ РѕРєС‚СЏР±СЂСЏ РїРѕ Р°РїСЂРµР»СЊ
+                // Тариф с октября по апрель
                 else {
                     norm = ( heatArea <= 20 ) ? 20 : ( 20 + 11*( heatArea - 20 ) )
                 }
@@ -462,14 +462,14 @@ class GasNorm extends Norm implements CounterIF {
     }
 }
 
-//РќРѕСЂРјР° РіРѕСЂСЏС‡РµР№ РІРѕРґС‹
+//Норма горячей воды
 @ToString ( includeNames = true, includeFields = true, includeSuper = true )
 class HotWaterNorm extends Norm implements CounterIF {
-    int numRegistration //РљРѕР»РёС‡РµСЃС‚РІРѕ РїСЂРѕРїРёСЃР°РЅРЅС‹С… Р¶РёС‚РµР»РµР№
+    int numRegistration //Количество прописанных жителей
 
-    HotWaterNormType hotWaterNormType //РўРёРї РЅРѕСЂРјС‹
+    HotWaterNormType hotWaterNormType //Тип нормы
 
-    //Р—Р°РґР°РЅРёРµ С‚Р°СЂРёС„РЅРѕР№ СЃРµС‚РєРё (РЅРѕСЂРјС‹)
+    //Задание тарифной сетки (нормы)
     def setTariff() {
         norm = 3*numRegistration
         switch ( hotWaterNormType ) {
@@ -483,15 +483,15 @@ class HotWaterNorm extends Norm implements CounterIF {
     }
 }
 
-//РќРѕСЂРјР° С…РѕР»РѕРґРЅРѕР№ РІРѕРґС‹
+//Норма холодной воды
 @ToString ( includeNames = true, includeFields = true, includeSuper = true )
 class ColdWaterNorm extends Norm implements CounterIF {
-    int numRegistration //РљРѕР»РёС‡РµСЃС‚РІРѕ РїСЂРѕРїРёСЃР°РЅРЅС‹С… Р¶РёС‚РµР»РµР№
-    boolean isWaterOut //Р’РѕРґРѕРѕС‚РІРµРґРµРЅРёРµ
+    int numRegistration //Количество прописанных жителей
+    boolean isWaterOut //Водоотведение
 
-    ColdWaterNormType coldWaterNormType //РўРёРї РЅРѕСЂРјС‹
+    ColdWaterNormType coldWaterNormType //Тип нормы
 
-    //Р—Р°РґР°РЅРёРµ С‚Р°СЂРёС„РЅРѕР№ СЃРµС‚РєРё (РЅРѕСЂРјС‹)
+    //Задание тарифной сетки (нормы)
     def setTariff() {
         tariff = isWaterOut ? 4.092 : 4.284
         switch ( coldWaterNormType ) {
@@ -505,85 +505,85 @@ class ColdWaterNorm extends Norm implements CounterIF {
     }
 }
 
-//РќРѕСЂРјР° РѕС‚РѕРїР»РµРЅРёСЏ
+//Норма отопления
 @ToString ( includeNames = true, includeFields = true, includeSuper = true )
 class HeatNorm extends Norm implements CounterIF {
-    def heatArea //РћС‚Р°РїР»РёРІР°РµРјР°СЏ РїР»РѕС‰Р°РґСЊ
+    def heatArea //Отапливаемая площадь
 
-    //Р—Р°РґР°РЅРёРµ С‚Р°СЂРёС„РЅРѕР№ СЃРµС‚РєРё (РЅРѕСЂРјС‹)
+    //Задание тарифной сетки (нормы)
     def setTariff() {
         norm = heatArea
-        // РўР°СЂРёС„ СЃ РјР°СЏ РїРѕ СЃРµРЅС‚СЏР±СЂСЊ
+        // Тариф с мая по сентябрь
         if ( Bill.date[Calendar.MONTH] >= 4 && Bill.date[Calendar.MONTH] <= 8) {
             tariff = 0
         }
-        // РўР°СЂРёС„ СЃ РѕРєС‚СЏР±СЂСЏ РїРѕ Р°РїСЂРµР»СЊ
+        // Тариф с октября по апрель
         else {
             tariff = 16.42
         }
     }
 }
 
-//РЎРЈР‘
+//СУБ
 @ToString ( includeNames = true, includeFields = true, includeSuper = true )
 class SubNorm extends Norm implements CounterIF {
-    def allArea //РћР±С‰Р°СЏ РїР»РѕС‰Р°РґСЊ
+    def allArea //Общая площадь
 
-    //Р—Р°РґР°РЅРёРµ С‚Р°СЂРёС„РЅРѕР№ СЃРµС‚РєРё (РЅРѕСЂРјС‹)
+    //Задание тарифной сетки (нормы)
     def setTariff() {
         norm = allArea
         tariff = 2.459
     }
 }
 
-//Р’С‹РІРѕР· РјСѓСЃРѕСЂР°
+//Вывоз мусора
 @ToString ( includeNames = true, includeFields = true, includeSuper = true )
 class TrashNorm extends Norm implements CounterIF {
-    int numRegistration //РљРѕР»РёС‡РµСЃС‚РІРѕ РїСЂРѕРїРёСЃР°РЅРЅС‹С… Р¶РёС‚РµР»РµР№
+    int numRegistration //Количество прописанных жителей
 
-    //Р—Р°РґР°РЅРёРµ С‚Р°СЂРёС„РЅРѕР№ СЃРµС‚РєРё (РЅРѕСЂРјС‹)
+    //Задание тарифной сетки (нормы)
     def setTariff() {
         norm = numRegistration
         tariff = 7.86
     }
 }
 
-//РљР»Р°СЃСЃ РґР»СЏ РѕРїРёСЃР°РЅРёСЏ РєРІР°СЂС‚РёСЂС‹, Р·Р° РєРѕС‚РѕСЂСѓСЋ РїР»Р°С‚РёС‚ РїР»Р°С‚РµР»СЊС‰РёРє
+//Класс для описания квартиры, за которую платит плательщик
 @ToString ( includeNames = true, includeFields = true )
 class Flat implements PrintClassT {
-    def allArea //РћР±С‰Р°СЏ РїР»РѕС‰Р°РґСЊ
-    def heatArea //РћС‚Р°РїР»РёРІР°РµРјР°СЏ РїР»РѕС‰Р°РґСЊ
-    int numRegistration //РљРѕР»РёС‡РµСЃС‚РІРѕ РїСЂРѕРїРёСЃР°РЅРЅС‹С…
-    int numAnimal //РљРѕР»РёС‡РµСЃС‚РІРѕ Р¶РёРІРѕС‚РЅС‹С…
-    boolean isCity //РљРІР°СЂС‚РёСЂР° РЅР°С…РѕРґРёС‚СЃСЏ РІ РіРѕСЂРѕРґРµ РёР»Рё СЃРµР»Рµ
-    ElectroConsumerType electroConsumerType //РўРёРї СЌР»РµРєС‚СЂРѕРїРѕС‚СЂРµР±РёС‚РµР»СЏ РїРѕ СЃС‡РµС‚С‡РёРєР°Рј
-    GasConsumerType gasConsumerType //РўРёРї РїРѕС‚СЂРµР±РёС‚РµР»СЏ РіР°Р·Р° РїРѕ СЃС‡РµС‚С‡РёРєР°Рј
-    GasNormType gasNormType //РўРёРї РїРѕС‚СЂРµР±РёС‚РµР»СЏ РіР°Р·Р° РїРѕ РЅРѕСЂРјРµ
-    HotWaterConsumerType hotWaterConsumerType //РўРёРї РїРѕС‚СЂРµР±РёС‚РµР»СЏ РіРѕСЂСЏС‡РµР№ РІРѕРґС‹ РїРѕ СЃС‡РµС‚С‡РёРєР°Рј
-    HotWaterNormType hotWaterNormType //РўРёРї РїРѕС‚СЂРµР±РёС‚РµР»СЏ РіРѕСЂСЏС‡РµР№ РІРѕРґС‹ РїРѕ РЅРѕСЂРјРµ
-    ColdWaterNormType coldWaterNormType //РўРёРї РїРѕС‚СЂРµР±РёС‚РµР»СЏ С…РѕР»РѕРґРЅРѕР№ РІРѕРґС‹ РїРѕ РЅРѕСЂРјРµ
-    boolean isGasCounter //Р•СЃС‚СЊ Р»Рё РіР°Р·РѕРІС‹Р№ СЃС‡РµС‚С‡РёРє
-    boolean isHotWaterCounter //Р•СЃС‚СЊ Р»Рё СЃС‡РµС‚С‡РёРє РіРѕСЂСЏС‡РµР№ РІРѕРґС‹
-    boolean isColdWaterCounter //Р•СЃС‚СЊ Р»Рё СЃС‡РµС‚С‡РёРє С…РѕР»РѕРґРЅРѕР№ РІРѕРґС‹
-    boolean isHeatCounter //Р•СЃС‚СЊ Р»Рё СЃС‡РµС‚С‡РёРє С‚РµРїР»Р°
+    def allArea //Общая площадь
+    def heatArea //Отапливаемая площадь
+    int numRegistration //Количество прописанных
+    int numAnimal //Количество животных
+    boolean isCity //Квартира находится в городе или селе
+    ElectroConsumerType electroConsumerType //Тип электропотребителя по счетчикам
+    GasConsumerType gasConsumerType //Тип потребителя газа по счетчикам
+    GasNormType gasNormType //Тип потребителя газа по норме
+    HotWaterConsumerType hotWaterConsumerType //Тип потребителя горячей воды по счетчикам
+    HotWaterNormType hotWaterNormType //Тип потребителя горячей воды по норме
+    ColdWaterNormType coldWaterNormType //Тип потребителя холодной воды по норме
+    boolean isGasCounter //Есть ли газовый счетчик
+    boolean isHotWaterCounter //Есть ли счетчик горячей воды
+    boolean isColdWaterCounter //Есть ли счетчик холодной воды
+    boolean isHeatCounter //Есть ли счетчик тепла
 }
 
-//РљР»Р°СЃСЃ РґР»СЏ РѕРїРёСЃР°РЅРёСЏ РѕСЂРіР°РЅРёР·Р°С†РёРё, РєРѕС‚РѕСЂР°СЏ РІС‹СЃС‚Р°РІРёР»Р° СЃС‡РµС‚
+//Класс для описания организации, которая выставила счет
 @ToString ( includeNames = true, includeFields = true )
 class Organisation implements PrintClassT {
     String nameOrganisation
 
     String getFullName() {
-        "РќР°РёРјРµРЅРѕРІР°РЅРёРµ: $nameOrganisation"
+        "Наименование: $nameOrganisation"
     }
 }
 
-//РџСЂРѕСЃС‚РµРЅСЊРєРёР№ РёРЅС‚РµСЂС„РµР№СЃ РїРѕРёРіСЂР°С‚СЊСЃСЏ СЃ С†РµРїРѕС‡РєРѕР№ РІС‹Р·РѕРІРѕРІ. Р§РµСЃС‚РЅРѕ СЃС‚Р°С‰РёР» РєСѓСЃРѕРє РєРѕРґР° Сѓ mrhaki Рё РјР°Р»РѕСЃС‚СЊ РїСЂРѕР°РїРіСЂРµР№РґРёР» :)
+//Простенький интерфейс поиграться с цепочкой вызовов. Честно стащил кусок кода у mrhaki и малость проапгрейдил :)
 interface TransformerIF {
     String transform(String[] str)
 }
 
-//Р’РѕР·РІСЂР°С‰Р°РµС‚ СЃС‚СЂРѕРєСѓ РёР· СЌР»РµРјРµРЅС‚РѕРІ РјР°СЃСЃРёРІР° СЃС‚СЂРѕРє
+//Возвращает строку из элементов массива строк
 trait DefaultTransformerT implements TransformerIF {
     String transform(String[] str) {
         def sb = new StringBuilder()
@@ -592,7 +592,7 @@ trait DefaultTransformerT implements TransformerIF {
     }
 }
 
-//РџРµСЂРµРІРѕРґРёС‚ РІСЃРµ СЌР»РµРјРµРЅС‚С‹ РјР°СЃСЃРёРІР° СЃС‚СЂРѕРє РІ РІРµСЂС…РЅРёР№ СЂРµРіРёСЃС‚СЂ
+//Переводит все элементы массива строк в верхний регистр
 trait UpperT implements TransformerIF {
     String transform(String[] str) {
         str.eachWithIndex { it, i -> str[i] = it.toUpperCase() }
@@ -600,7 +600,7 @@ trait UpperT implements TransformerIF {
     }
 }
 
-//РљР»Р°СЃСЃ РґР»СЏ РѕР±С‰РµРіРѕ РѕРїРёСЃР°РЅРёСЏ РїР»Р°С‚РµР»СЊС‰РёРєР°
+//Класс для общего описания плательщика
 @ToString ( includeNames = true, includeFields = true )
 class Payer implements PrintClassT, DefaultTransformerT, UpperT {
     String firstName
@@ -609,7 +609,7 @@ class Payer implements PrintClassT, DefaultTransformerT, UpperT {
     String personalAccount
 
     String getFullName() {
-        "РРјСЏ: $firstName, Р¤Р°РјРёР»РёСЏ: $lastName, РћС‚С‡РµСЃС‚РІРѕ: $patronymic, Р»/СЃ: $personalAccount"
+        "Имя: $firstName, Фамилия: $lastName, Отчество: $patronymic, л/с: $personalAccount"
     }
 
     String getShortName() {
@@ -626,92 +626,92 @@ interface BillingIF {
     def getBilling()
 }
 
-//РљР»Р°СЃСЃ РґР»СЏ РѕР±С‰РµРіРѕ РѕРїРёСЃР°РЅРёСЏ РїР»Р°С‚РµР¶РєРё
+//Класс для общего описания платежки
 @ToString ( includeNames = true, includeFields = true )
 class Bill implements BillingIF, PrintClassT {
-    static date //РњРµСЃСЏС†, Р·Р° РєРѕС‚РѕСЂС‹Р№ РІС‹СЃС‚Р°РІР»РµРЅ СЃС‡РµС‚
+    static date //Месяц, за который выставлен счет
 
     String nameBill
-    def debt //Р”РѕР»Рі РЅР° РЅР°С‡Р°Р»Рѕ РјРµСЃСЏС†Р°
-    def recalculation //РџРµСЂРµСЂР°СЃС‡РµС‚
-    def payed //РћРїР»Р°С‡РµРЅРѕ РЅР° РЅР°С‡Р°Р»Рѕ РјРµСЃСЏС†Р°
-    def subsidy //РќР°СЃС‡РёС‚Р°РЅРѕ СЃСѓР±СЃРёРґРёРё
-    def mustBePayed //РЈРєР°Р·Р°РЅРѕ Рє РѕРїР»Р°С‚Рµ
-    boolean isCounter //Р•СЃС‚СЊ Р»Рё СЃС‡РµС‚С‡РёРєРё
+    def debt //Долг на начало месяца
+    def recalculation //Перерасчет
+    def payed //Оплачено на начало месяца
+    def subsidy //Насчитано субсидии
+    def mustBePayed //Указано к оплате
+    boolean isCounter //Есть ли счетчики
 
-    def client //РћСЃРѕР±Р°, РєРѕС‚РѕСЂР°СЏ РїР»Р°С‚РёС‚
-    def organisation //РћСЂРіР°РЅРёР·Р°С†РёСЏ, РІС‹СЃС‚Р°РІРёРІС€Р°СЏ СЃС‡РµС‚
-    def flatToPay //РљРІР°СЂС‚РёСЂР°, Р·Р° РєРѕС‚РѕСЂСѓСЋ РїР»Р°С‚СЏС‚
-    def counterOrNorm //Р›РёР±Рѕ СЃС‡РёС‚Р°РµРј РїРѕ РЅРѕСЂРјРµ, Р»РёР±Рѕ РїРѕ СЃС‡РµС‚С‡РёРєСѓ
+    def client //Особа, которая платит
+    def organisation //Организация, выставившая счет
+    def flatToPay //Квартира, за которую платят
+    def counterOrNorm //Либо считаем по норме, либо по счетчику
 
-    //Р’С‹РґР°РµС‚ РјРµСЃСЏС† РѕРїР»Р°С‚С‹
+    //Выдает месяц оплаты
     def getMonth() {
         switch ( date[Calendar.MONTH] ) {
-            case 0: return 'РЇРќР’РђР Р¬'
-            case 1: return 'Р¤Р•Р’Р РђР›Р¬'
-            case 2: return 'РњРђР Рў'
-            case 3: return 'РђРџР Р•Р›Р¬'
-            case 4: return 'РњРђР™'
-            case 5: return 'РР®РќР¬'
-            case 6: return 'РР®Р›Р¬'
-            case 7: return 'РђР’Р“РЈРЎРў'
-            case 8: return 'РЎР•РќРўРЇР‘Р Р¬'
-            case 9: return 'РћРљРўРЇР‘Р Р¬'
-            case 10: return 'РќРћРЇР‘Р Р¬'
-            case 11: return 'Р”Р•РљРђР‘Р Р¬'
+            case 0: return 'ЯНВАРЬ'
+            case 1: return 'ФЕВРАЛЬ'
+            case 2: return 'МАРТ'
+            case 3: return 'АПРЕЛЬ'
+            case 4: return 'МАЙ'
+            case 5: return 'ИЮНЬ'
+            case 6: return 'ИЮЛЬ'
+            case 7: return 'АВГУСТ'
+            case 8: return 'СЕНТЯБРЬ'
+            case 9: return 'ОКТЯБРЬ'
+            case 10: return 'НОЯБРЬ'
+            case 11: return 'ДЕКАБРЬ'
         }
     }
 
-    //Р Р°СЃСЃС‡РёС‚С‹РІР°РµС‚ РѕРїР»Р°С‚Сѓ РїРѕ СЃС‡РµС‚Сѓ РёР»Рё РЅРѕСЂРјРµ
+    //Рассчитывает оплату по счету или норме
     def getCounted() {
         ( counterOrNorm.amount ).setScale( 2, BigDecimal.ROUND_HALF_UP )
     }
 
-    //Р’С‹СЃС‡РёС‚С‹РІР°РµС‚ Рє РѕРїР»Р°С‚Рµ
+    //Высчитывает к оплате
     def getToPay() {
         ( debt + counted + recalculation - payed - subsidy ).setScale( 2, BigDecimal.ROUND_HALF_UP )
     }
 
-    //Р’РѕР·РІСЂР°С‰Р°РµС‚ СЂР°РІРµРЅСЃС‚РІРѕ РІС‹СЃС‡РёС‚Р°РЅРЅРѕРіРѕ Рє РѕРїР»Р°С‚Рµ Рё РїРѕРєР°Р·Р°РЅРёР№ СЃС‡РµС‚С‡РёРєР° (РЅРѕСЂРјС‹)
+    //Возвращает равенство высчитанного к оплате и показаний счетчика (нормы)
     boolean isValidate() {
         mustBePayed == toPay
     }
 
-    //РџРµС‡Р°С‚Р°РµС‚ РїР»Р°С‚РµР¶РєСѓ
+    //Печатает платежку
     def getBilling() {
         def printBilling =
                 """
         -----------------------------------------------------${nameBill}---------------------------------------------------------
-        РџР»Р°С‚РµР»СЊС‰РёРє: $client.shortName
-        РђРґСЂРµСЃ РїР»Р°С‚РµР»СЊС‰РёРєР°: $client.shortAddress
-        РђРґСЂРµСЃ РєРІР°СЂС‚РёСЂС‹: $flatToPay.shortAddress
-        РћСЂРіР°РЅРёР·Р°С†РёСЏ: $organisation.fullName
-        РђРґСЂРµСЃ РѕСЂРіР°РЅРёР·Р°С†РёРё: $organisation.shortAddress
-        Р РµРєРІРёР·РёС‚С‹: $organisation.fullRequisite
-        РЎС‡РµС‚ Р·Р°: $month
+        Плательщик: $client.shortName
+        Адрес плательщика: $client.shortAddress
+        Адрес квартиры: $flatToPay.shortAddress
+        Организация: $organisation.fullName
+        Адрес организации: $organisation.shortAddress
+        Реквизиты: $organisation.fullRequisite
+        Счет за: $month
         -------------------------------------------------------------------------------------------------------------------------------------
-        Р”РѕР»Рі: $debt | РџРµСЂРµСЂР°СЃС‡РµС‚: $recalculation | РћРїР»Р°С‚Р°: $payed | РЎСѓР±СЃРёРґРёСЏ: $subsidy | Р’С‹СЃС‚Р°РІР»РµРЅРѕ РѕСЂРіР°РЅРёР·Р°С†РёРµР№ Рє РѕРїР»Р°С‚Рµ: $mustBePayed |
+        Долг: $debt | Перерасчет: $recalculation | Оплата: $payed | Субсидия: $subsidy | Выставлено организацией к оплате: $mustBePayed |
         -------------------------------------------------------------------------------------------------------------------------------------
         """
         if ( isCounter ) {
             printBilling +=
-                    """                                                                  РќР°СЃС‡РёС‚Р°РЅРѕ Рє РѕРїР»Р°С‚Рµ РїРѕ СЃС‡РµС‚С‡РёРєСѓ: $counted |
+                    """                                                                  Насчитано к оплате по счетчику: $counted |
         -------------------------------------------------------------------------------------------------------------------------------------
         """
         }
         else {
             printBilling +=
-                    """                                                                     РќР°СЃС‡РёС‚Р°РЅРѕ Рє РѕРїР»Р°С‚Рµ РїРѕ РЅРѕСЂРјРµ: $counted |
+                    """                                                                     Насчитано к оплате по норме: $counted |
         -------------------------------------------------------------------------------------------------------------------------------------
         """
         }
         printBilling +=
-                """                                 РџРѕСЃС‡РёС‚Р°РЅРѕ РїСЂРѕРіСЂР°РјРјРѕР№ Рє РѕРїР»Р°С‚Рµ СЃ СѓС‡РµС‚РѕРј РїРѕРєР°Р·Р°РЅРёР№ СЃС‡РµС‚С‡РёРєР° (РЅРѕСЂРјС‹): $toPay |
+                """                                 Посчитано программой к оплате с учетом показаний счетчика (нормы): $toPay |
         -------------------------------------------------------------------------------------------------------------------------------------
         """
         if ( !validate ) {
             printBilling +=
-                    """          Р’РќРРњРђРќРР•! Р’Р«РЎРўРђР’Р›Р•РќРќР«Р™ РћР Р“РђРќРР—РђР¦РР•Р™ РЎР§Р•Рў РќР• РЎРћРћРўР’Р•РўРЎРўР’РЈР•Рў Р РђРЎРЎР§РРўРђРќРќРћРњРЈ РџР РћР“Р РђРњРњРћР™ Р—РќРђР§Р•РќРР®! РћР‘Р РђРўРРўР•РЎР¬ Р’ РђР‘РћРќРћРўР”Р•Р›!
+                    """          ВНИМАНИЕ! ВЫСТАВЛЕННЫЙ ОРГАНИЗАЦИЕЙ СЧЕТ НЕ СООТВЕТСТВУЕТ РАССЧИТАННОМУ ПРОГРАММОЙ ЗНАЧЕНИЮ! ОБРАТИТЕСЬ В АБОНОТДЕЛ!
         -------------------------------------------------------------------------------------------------------------------------------------
         """
         }
@@ -719,27 +719,27 @@ class Bill implements BillingIF, PrintClassT {
     }
 }
 
-//----------------------РќРђР§РђР›Рћ----------------------
+//----------------------НАЧАЛО----------------------
 
-//Р—Р°РґР°РµРј РґР°С‚Сѓ РґР»СЏ РїР»Р°С‚РµР¶РµРє
+//Задаем дату для платежек
 Bill.date = new Date()
 Bill.date = Bill.date.copyWith(
         year: 2015,
         month: Calendar.OCTOBER,
         date: 15 )
 
-//РЎРѕР·РґР°РµРј РєРІР°СЂС‚РёСЂСѓ
+//Создаем квартиру
 def flat = new Flat() as AddressT
 flat.with {
-    //РђРґСЂРµСЃ
+    //Адрес
     index = '18030'
-    country = 'РЈРєСЂР°РёРЅР°'
-    region = 'Р§РµСЂРєР°СЃСЃРєР°СЏ'
-    city = 'Р§РµСЂРєР°СЃСЃС‹'
-    street = 'Р СЏР±РѕРєРѕРЅСЏ'
+    country = 'Украина'
+    region = 'Черкасская'
+    city = 'Черкассы'
+    street = 'Рябоконя'
     numHouse = 31
     numFlat = 41
-    //РћСЃС‚Р°Р»СЊРЅС‹Рµ Р·РЅР°С‡РµРЅРёСЏ
+    //Остальные значения
     allArea = 45.1
     heatArea = 44.1
     numRegistration = 2
@@ -756,165 +756,165 @@ flat.with {
     isCity = true
 }
 
-//РЎРѕР·РґР°РµРј РїР»Р°С‚РµР»СЊС‰РёРєР°
+//Создаем плательщика
 def payer = new Payer() as AddressT
 payer.with {
-    //РђРґСЂРµСЃ
+    //Адрес
     index = '18008'
-    country = 'РЈРєСЂР°РёРЅР°'
-    region = 'Р§РµСЂРєР°СЃСЃРєР°СЏ'
-    city = 'Р§РµСЂРєР°СЃСЃС‹'
-    street = 'РЇСЂРѕСЃР»Р°РІСЃРєР°СЏ'
+    country = 'Украина'
+    region = 'Черкасская'
+    city = 'Черкассы'
+    street = 'Ярославская'
     numHouse = '8/1'
     numFlat = '218'
-    //РћСЃС‚Р°Р»СЊРЅС‹Рµ Р·РЅР°С‡РµРЅРёСЏ
-    firstName = 'РЁР°С€Р»СЋРє'
-    lastName = 'РђР»РµРєСЃРµР№'
-    patronymic = 'Р’Р°Р»РµСЂРёРµРІРёС‡'
+    //Остальные значения
+    firstName = 'Шашлюк'
+    lastName = 'Алексей'
+    patronymic = 'Валериевич'
     personalAccount = '41298042'
 }
 
-//РЎРѕР·РґР°РµРј Р§РµСЂРєР°СЃСЃС‹Р“Р°Р·РЎР±С‹С‚
+//Создаем ЧеркассыГазСбыт
 def gasSbut = new Organisation().withTraits AddressT, BankT
 gasSbut.with {
-    //РђРґСЂРµСЃ
+    //Адрес
     index = '18000'
-    country = 'РЈРєСЂР°РёРЅР°'
-    region = 'Р§РµСЂРєР°СЃСЃРєР°СЏ'
-    city = 'Р§РµСЂРєР°СЃСЃС‹'
-    street = 'Р“СЂРѕРјРѕРІР°'
+    country = 'Украина'
+    region = 'Черкасская'
+    city = 'Черкассы'
+    street = 'Громова'
     numHouse = '142'
     numFlat = ''
-    //Р‘Р°РЅРєРѕРІСЃРєРёРµ СЂРµРєРІРёР·РёС‚С‹
-    nameBank = 'Р§РµСЂРєР°СЃСЃРєРѕРµ РѕР±Р»Р°СЃС‚РЅРѕРµ СѓРїСЂР°РІР»РµРЅРёРµ РђРћ "РЎР±РµСЂР±Р°РЅРє"'
+    //Банковские реквизиты
+    nameBank = 'Черкасское областное управление АО "Сбербанк"'
     checkingAccount = '26030301127727'
     MFO = '354507'
-    //РќР°РёРјРµРЅРѕРІР°РЅРёРµ
-    nameOrganisation = 'РћРћРћ "Р§РµСЂРєР°СЃСЃС‹РіР°Р· РЎР±С‹С‚"'
+    //Наименование
+    nameOrganisation = 'ООО "Черкассыгаз Сбыт"'
     ZKPO = '39672471'
 }
 
-//РЎРѕР·РґР°РµРј РћР±Р»СЌРЅРµСЂРіРѕ
+//Создаем Облэнерго
 def oblEnergo = new Organisation().withTraits AddressT, BankT
 oblEnergo.with {
-    //РђРґСЂРµСЃ
+    //Адрес
     index = '18002'
-    country = 'РЈРєСЂР°РёРЅР°'
-    region = 'Р§РµСЂРєР°СЃСЃРєР°СЏ'
-    city = 'Р§РµСЂРєР°СЃСЃС‹'
-    street = 'Р“РѕРіРѕР»СЏ'
+    country = 'Украина'
+    region = 'Черкасская'
+    city = 'Черкассы'
+    street = 'Гоголя'
     numHouse = '285'
     numFlat = ''
-    //Р‘Р°РЅРєРѕРІСЃРєРёРµ СЂРµРєРІРёР·РёС‚С‹
-    nameBank = 'Р§РµСЂРєР°СЃСЃРєРѕРµ РѕР±Р»Р°СЃС‚РЅРѕРµ СѓРїСЂР°РІР»РµРЅРёРµ РђРћ "РЎР±РµСЂР±Р°РЅРє"'
+    //Банковские реквизиты
+    nameBank = 'Черкасское областное управление АО "Сбербанк"'
     checkingAccount = '26037300182'
     MFO = '354507'
-    //РќР°РёРјРµРЅРѕРІР°РЅРёРµ
-    nameOrganisation = 'Р—РђРћ "Р§РµСЂРєР°СЃСЃС‹РѕР±Р»СЌРЅРµСЂРіРѕ" Р§РµСЂРєР°СЃСЃРєРёР№ РіРѕСЂРѕРґСЃРєРѕР№ Р Р­РЎ'
+    //Наименование
+    nameOrganisation = 'ЗАО "Черкассыоблэнерго" Черкасский городской РЭС'
     ZKPO = '25204608'
 }
 
-//РЎРѕР·РґР°РµРј РўР­Р¦
+//Создаем ТЭЦ
 def chTEC = new Organisation().withTraits AddressT, BankT
 chTEC.with {
-    //РђРґСЂРµСЃ
+    //Адрес
     index = '18000'
-    country = 'РЈРєСЂР°РёРЅР°'
-    region = 'Р§РµСЂРєР°СЃСЃРєР°СЏ'
-    city = 'Р§РµСЂРєР°СЃСЃС‹'
-    street = 'РїСЂРѕРµР·Рґ РҐРёРјРёРєРѕРІ'
+    country = 'Украина'
+    region = 'Черкасская'
+    city = 'Черкассы'
+    street = 'проезд Химиков'
     numHouse = '76'
     numFlat = ''
-    //Р‘Р°РЅРєРѕРІСЃРєРёРµ СЂРµРєРІРёР·РёС‚С‹
-    nameBank = 'Р§РµСЂРєР°СЃСЃРєРѕРµ РѕР±Р»Р°СЃС‚РЅРѕРµ СѓРїСЂР°РІР»РµРЅРёРµ РђРћ "РЎР±РµСЂР±Р°РЅРє"'
+    //Банковские реквизиты
+    nameBank = 'Черкасское областное управление АО "Сбербанк"'
     checkingAccount = '26039341100255'
     MFO = '354507'
-    //РќР°РёРјРµРЅРѕРІР°РЅРёРµ
-    nameOrganisation = 'Р§РµСЂРєР°СЃСЃРєР°СЏ РўР­Р¦'
+    //Наименование
+    nameOrganisation = 'Черкасская ТЭЦ'
     ZKPO = '00204033'
 }
 
-//РЎРѕР·РґР°РµРј РЎР»СѓР¶Р±Сѓ Р§РёСЃС‚РѕС‚С‹
+//Создаем Службу Чистоты
 def cleenService = new Organisation().withTraits AddressT, BankT
 cleenService.with {
-    //РђРґСЂРµСЃ
+    //Адрес
     index = '18003'
-    country = 'РЈРєСЂР°РёРЅР°'
-    region = 'Р§РµСЂРєР°СЃСЃРєР°СЏ'
-    city = 'Р§РµСЂРєР°СЃСЃС‹'
-    street = 'Р§Р°Р№РєРѕРІСЃРєРѕРіРѕ'
+    country = 'Украина'
+    region = 'Черкасская'
+    city = 'Черкассы'
+    street = 'Чайковского'
     numHouse = '117'
     numFlat = ''
-    //Р‘Р°РЅРєРѕРІСЃРєРёРµ СЂРµРєРІРёР·РёС‚С‹
-    nameBank = 'Р§Р“Р РЈ Р—РђРћ РљР‘ "РџСЂРёРІР°С‚Р±Р°РЅРє"'
+    //Банковские реквизиты
+    nameBank = 'ЧГРУ ЗАО КБ "Приватбанк"'
     checkingAccount = '26004060191291'
     MFO = '354347'
-    //РќР°РёРјРµРЅРѕРІР°РЅРёРµ
-    nameOrganisation = 'РљРџ "Р§РµСЂРєР°СЃСЃРєР°СЏ СЃР»СѓР¶Р±Р° С‡РёСЃС‚РѕС‚С‹"'
+    //Наименование
+    nameOrganisation = 'КП "Черкасская служба чистоты"'
     ZKPO = '03328652'
 }
 
-//РЎРѕР·РґР°РµРј РџСЂРёРґРЅРµРїСЂРѕРІСЃРєРёР№ РЎРЈР‘
+//Создаем Приднепровский СУБ
 def dneprSUB = new Organisation().withTraits AddressT, BankT
 dneprSUB.with {
-    //РђРґСЂРµСЃ
+    //Адрес
     index = '18005'
-    country = 'РЈРєСЂР°РёРЅР°'
-    region = 'Р§РµСЂРєР°СЃСЃРєР°СЏ'
-    city = 'Р§РµСЂРєР°СЃСЃС‹'
-    street = 'РР»СЊРёРЅР°'
+    country = 'Украина'
+    region = 'Черкасская'
+    city = 'Черкассы'
+    street = 'Ильина'
     numHouse = '330/5'
     numFlat = ''
-    //Р‘Р°РЅРєРѕРІСЃРєРёРµ СЂРµРєРІРёР·РёС‚С‹
-    nameBank = 'Р§РћРЈ РђР‘ "РЈРєСЂРіР°Р·Р±Р°РЅРє"'
+    //Банковские реквизиты
+    nameBank = 'ЧОУ АБ "Укргазбанк"'
     checkingAccount = '2600546919'
     MFO = '320478'
-    //РќР°РёРјРµРЅРѕРІР°РЅРёРµ
-    nameOrganisation = 'РљРџ "РџСЂРёРґРЅРµРїСЂРѕРІСЃРєР°СЏ РЎРЎР”"'
+    //Наименование
+    nameOrganisation = 'КП "Приднепровская ССД"'
     ZKPO = '36701792'
 }
 
-//РЎРѕР·РґР°РµРј Р§РµСЂРєР°СЃСЃС‹РІРѕРґРѕРєР°РЅР°Р» РґР»СЏ С†РµРЅС‚СЂР°Р»РёР·РѕРІР°РЅРЅРѕРіРѕ РІРѕРґРѕСЃРЅР°Р±Р¶РµРЅРёСЏ
+//Создаем Черкассыводоканал для централизованного водоснабжения
 def waterChannel = new Organisation().withTraits AddressT, BankT
 waterChannel.with {
-    //РђРґСЂРµСЃ
+    //Адрес
     index = '18036'
-    country = 'РЈРєСЂР°РёРЅР°'
-    region = 'Р§РµСЂРєР°СЃСЃРєР°СЏ'
-    city = 'Р§РµСЂРєР°СЃСЃС‹'
-    street = 'Р’Р°С‚СѓС‚РёРЅР°'
+    country = 'Украина'
+    region = 'Черкасская'
+    city = 'Черкассы'
+    street = 'Ватутина'
     numHouse = '12'
     numFlat = ''
-    //Р‘Р°РЅРєРѕРІСЃРєРёРµ СЂРµРєРІРёР·РёС‚С‹
-    nameBank = 'Р§Р“Р РЈ Р—РђРћ РљР‘ "РџСЂРёРІР°С‚Р±Р°РЅРє"'
+    //Банковские реквизиты
+    nameBank = 'ЧГРУ ЗАО КБ "Приватбанк"'
     checkingAccount = '26003060347905'
     MFO = '354347'
-    //РќР°РёРјРµРЅРѕРІР°РЅРёРµ
-    nameOrganisation = 'РљРџ "Р§РµСЂРєР°СЃСЃС‹РІРѕРґРѕРєР°РЅР°Р»"'
+    //Наименование
+    nameOrganisation = 'КП "Черкассыводоканал"'
     ZKPO = '03357168'
 }
 
-//РЎРѕР·РґР°РµРј Р§РµСЂРєР°СЃСЃС‹РІРѕРґРѕРєР°РЅР°Р» РґР»СЏ С†РµРЅС‚СЂР°Р»РёР·РѕРІР°РЅРЅРѕРіРѕ РІРѕРґРѕРѕС‚РІРµРґРµРЅРёСЏ
+//Создаем Черкассыводоканал для централизованного водоотведения
 def waterChannelOut = new Organisation().withTraits AddressT, BankT
 waterChannelOut.with {
-    //РђРґСЂРµСЃ
+    //Адрес
     index = '18036'
-    country = 'РЈРєСЂР°РёРЅР°'
-    region = 'Р§РµСЂРєР°СЃСЃРєР°СЏ'
-    city = 'Р§РµСЂРєР°СЃСЃС‹'
-    street = 'Р’Р°С‚СѓС‚РёРЅР°'
+    country = 'Украина'
+    region = 'Черкасская'
+    city = 'Черкассы'
+    street = 'Ватутина'
     numHouse = '12'
     numFlat = ''
-    //Р‘Р°РЅРєРѕРІСЃРєРёРµ СЂРµРєРІРёР·РёС‚С‹
-    nameBank = 'РђРћ "РЈРєСЂРЎРёР±Р±Р°РЅРє"'
+    //Банковские реквизиты
+    nameBank = 'АО "УкрСиббанк"'
     checkingAccount = '26003314673900'
     MFO = '354347'
-    //РќР°РёРјРµРЅРѕРІР°РЅРёРµ
-    nameOrganisation = 'РљРџ "Р§РµСЂРєР°СЃСЃС‹РІРѕРґРѕРєР°РЅР°Р»"'
+    //Наименование
+    nameOrganisation = 'КП "Черкассыводоканал"'
     ZKPO = '03357168'
 }
 
-//РЎС‡РёС‚Р°РµРј РіР°Р· РїРѕ РЅРѕСЂРјРµ
+//Считаем газ по норме
 def gasNorm = new GasNorm()
 gasNorm.with {
     numRegistration = flat.numRegistration
@@ -923,14 +923,14 @@ gasNorm.with {
     gasNormType = flat.gasNormType
 }
 
-//РЎС‡РёС‚Р°РµРј РіРѕСЂСЏС‡СѓСЋ РІРѕРґСѓ РїРѕ РЅРѕСЂРјРµ
+//Считаем горячую воду по норме
 def hotWaterNorm = new HotWaterNorm()
 hotWaterNorm.with {
     numRegistration = flat.numRegistration
     hotWaterNormType = flat.hotWaterNormType
 }
 
-//РЎС‡РёС‚Р°РµРј С…РѕР»РѕРґРЅСѓСЋ РІРѕРґСѓ РїРѕ РЅРѕСЂРјРµ
+//Считаем холодную воду по норме
 def coldWaterNorm = new ColdWaterNorm()
 coldWaterNorm.with {
     numRegistration = flat.numRegistration
@@ -938,7 +938,7 @@ coldWaterNorm.with {
     isWaterOut = false
 }
 
-//РЎС‡РёС‚Р°РµРј РІРѕРґРѕРѕС‚РІРµРґРµРЅРёРµ РїРѕ РЅРѕСЂРјРµ
+//Считаем водоотведение по норме
 def coldWaterNormOut = new ColdWaterNorm()
 coldWaterNormOut.with {
     numRegistration = flat.numRegistration
@@ -946,25 +946,25 @@ coldWaterNormOut.with {
     isWaterOut = true
 }
 
-//РЎС‡РёС‚Р°РµРј РѕС‚РѕРїР»РµРЅРёРµ РїРѕ РЅРѕСЂРјРµ
+//Считаем отопление по норме
 def heatNorm = new HeatNorm()
 heatNorm.with {
     heatArea = flat.heatArea
 }
 
-//РЎС‡РёС‚Р°РµРј РєРІР°СЂС‚РїР»Р°С‚Сѓ РЎРЈР‘ РїРѕ РЅРѕСЂРјРµ
+//Считаем квартплату СУБ по норме
 def subNorm = new SubNorm()
 subNorm.with {
     allArea = flat.allArea
 }
 
-//РЎС‡РёС‚Р°РµРј РІС‹РІРѕР· РјСѓСЃРѕСЂР° РїРѕ РЅРѕСЂРјРµ
+//Считаем вывоз мусора по норме
 def trashNorm = new TrashNorm()
 trashNorm.with {
     numRegistration = flat.numRegistration
 }
 
-//РЎС‡РёС‚Р°РµРј РѕС‚РѕРїР»РµРЅРёРµ РїРѕ СЃС‡РµС‚С‡РёРєСѓ
+//Считаем отопление по счетчику
 def heatCounter = new HeatCounter()
 heatCounter.with {
     type = CounterType.HEAT
@@ -974,7 +974,7 @@ heatCounter.with {
     ind_now = 24.56
 }
 
-//РЎС‡РёС‚Р°РµРј РіРѕСЂСЏС‡СѓСЋ РІРѕРґСѓ РїРѕ СЃС‡РµС‚С‡РёРєСѓ
+//Считаем горячую воду по счетчику
 def hotWaterCounter = new HotWaterCounter()
 hotWaterCounter.with {
     type = CounterType.HOT_WATER_1_TARIFF
@@ -992,7 +992,7 @@ hotWaterCounter.with {
     hotWaterConsumerType = flat.hotWaterConsumerType
 }
 
-//РЎС‡РёС‚Р°РµРј С…РѕР»РѕРґРЅСѓСЋ РІРѕРґСѓ РїРѕ СЃС‡РµС‚С‡РёРєСѓ
+//Считаем холодную воду по счетчику
 def coldWaterCounter = new ColdWaterCounter()
 coldWaterCounter.with {
     type = CounterType.COLD_WATER
@@ -1003,7 +1003,7 @@ coldWaterCounter.with {
     isWaterOut = false
 }
 
-//РЎС‡РёС‚Р°РµРј РІРѕРґРѕРѕС‚РІРµРґРµРЅРёРµ РїРѕ СЃС‡РµС‚С‡РёРєСѓ
+//Считаем водоотведение по счетчику
 def coldWaterCounterOut = new ColdWaterCounter()
 coldWaterCounterOut.with {
     type = CounterType.COLD_WATER
@@ -1014,22 +1014,22 @@ coldWaterCounterOut.with {
     isWaterOut = true
 }
 
-//РЎС‡РёС‚Р°РµРј РіР°Р· РїРѕ СЃС‡РµС‚С‡РёРєСѓ
+//Считаем газ по счетчику
 def gasCounter = new GasCounter()
 gasCounter.with {
     type = CounterType.GAS
-    model = 'Р’РР—РђР  G4'
+    model = 'ВИЗАР G4'
     number = 13400
     ind_before = 16826
     ind_now = 17403
     gasConsumerType = flat.gasConsumerType
 }
 
-//РЎС‡РёС‚Р°РµРј СЌР»РµРєС‚СЂРёС‡РµСЃС‚РІРѕ РїРѕ 1-С‚Р°СЂРёС„РЅРѕРјСѓ СЃС‡РµС‚С‡РёРєСѓ
+//Считаем электричество по 1-тарифному счетчику
 def elCounter = new OneZoneElCounter() as OneElectroZoneT
 elCounter.with {
     type = CounterType.ELETRO_1_ZONE
-    model = 'РЎР­Рў1-1-1-РЁ-РЎ2-РЈ'
+    model = 'СЭТ1-1-1-Ш-С2-У'
     number = 18100
     ind_1_before = 18660
     ind_1_now = 18825
@@ -1037,11 +1037,11 @@ elCounter.with {
     isCity = flat.isCity
 }
 
-//РЎС‡РёС‚Р°РµРј СЌР»РµРєС‚СЂРёС‡РµСЃС‚РІРѕ РїРѕ 2-С‚Р°СЂРёС„РЅРѕРјСѓ СЃС‡РµС‚С‡РёРєСѓ
+//Считаем электричество по 2-тарифному счетчику
 def elCounter_2 = new TwoZoneElCounter() as TwoElectroZoneT
 elCounter_2.with {
     type = CounterType.ELETRO_2_ZONE
-    model = 'РЎР­Рў 1-4Рњ'
+    model = 'СЭТ 1-4М'
     number = 19100
     ind_1_before = 18660
     ind_1_now = 18770
@@ -1051,11 +1051,11 @@ elCounter_2.with {
     isCity = flat.isCity
 }
 
-//РЎС‡РёС‚Р°РµРј СЌР»РµРєС‚СЂРёС‡РµСЃС‚РІРѕ РїРѕ 3-С‚Р°СЂРёС„РЅРѕРјСѓ СЃС‡РµС‚С‡РёРєСѓ
+//Считаем электричество по 3-тарифному счетчику
 def elCounter_3 = new ThreeZoneElCounter().withTraits ThreeElectroZoneT
 elCounter_3.with {
     type = CounterType.ELETRO_3_ZONE
-    model = 'РЎР­Рў 1-4Рњ'
+    model = 'СЭТ 1-4М'
     number = 19100
     ind_1_before = 18660
     ind_1_now = 18740
@@ -1067,11 +1067,11 @@ elCounter_3.with {
     isCity = flat.isCity
 }
 
-//РЎС‡РёС‚Р°РµРј СЌР»РµРєС‚СЂРёС‡РµСЃС‚РІРѕ РїРѕ 1-С‚Р°СЂРёС„РЅРѕРјСѓ СЃС‡РµС‚С‡РёРєСѓ
+//Считаем электричество по 1-тарифному счетчику
 def elCounter_4 = new OneZoneElCounter()
 elCounter.with {
     type = CounterType.ELETRO_1_ZONE
-    model = 'РЎР­Рў1-1-1-РЁ-РЎ2-РЈ'
+    model = 'СЭТ1-1-1-Ш-С2-У'
     number = 18100
     ind_1_before = 18660
     ind_1_now = 18825
@@ -1079,14 +1079,14 @@ elCounter.with {
     isCity = flat.isCity
 }
 
-//РџР»Р°С‚РµР¶РєР° Р·Р° РіР°Р·
+//Платежка за газ
 def gasBill = new Bill()
 gasBill.with {
     client = payer
     organisation = gasSbut
     flatToPay = flat
 
-    nameBill = 'Р“РђР—'
+    nameBill = 'ГАЗ'
     debt = 4.31
     recalculation = 0.00
     payed = 0.00
@@ -1097,14 +1097,14 @@ gasBill.with {
     counterOrNorm = isCounter ? gasCounter : gasNorm
 }
 
-//РџР»Р°С‚РµР¶РєР° Р·Р° СЌР»РµРєС‚СЂРёС‡РµСЃС‚РІРѕ
+//Платежка за электричество
 def electroBill = new Bill()
 electroBill.with {
     client = payer
     organisation = oblEnergo
     flatToPay = flat
 
-    nameBill = 'Р­Р›Р•РљРўР РР§Р•РЎРўР’Рћ'
+    nameBill = 'ЭЛЕКТРИЧЕСТВО'
     debt = 296.30
     recalculation = 0.00
     payed = 596.30
@@ -1115,14 +1115,14 @@ electroBill.with {
     counterOrNorm = isCounter ? elCounter : elNorm
 }
 
-//РџР»Р°С‚РµР¶РєР° Р·Р° С…РѕР»РѕРґРЅСѓСЋ РІРѕРґСѓ
+//Платежка за холодную воду
 def coldWaterBill = new Bill()
 coldWaterBill.with {
     client = payer
     organisation = waterChannel
     flatToPay = flat
 
-    nameBill = 'Р’РћР”РћРЎРќРђР‘Р–Р•РќРР• (РҐР’РЎ)'
+    nameBill = 'ВОДОСНАБЖЕНИЕ (ХВС)'
     debt = 38.49
     recalculation = 3.60
     payed = 38.49
@@ -1133,14 +1133,14 @@ coldWaterBill.with {
     counterOrNorm = isCounter ? coldWaterCounter : coldWaterNorm
 }
 
-//РџР»Р°С‚РµР¶РєР° Р·Р° РІРѕРґРѕРѕС‚РІРµРґРµРЅРёРµ
+//Платежка за водоотведение
 def coldWaterOutBill = new Bill()
 coldWaterOutBill.with {
     client = payer
     organisation = waterChannelOut
     flatToPay = flat
 
-    nameBill = 'Р’РћР”РћРћРўР’Р•Р”Р•РќРР•'
+    nameBill = 'ВОДООТВЕДЕНИЕ'
     debt = 59.92
     recalculation = -2.30
     payed = 59.92
@@ -1151,14 +1151,14 @@ coldWaterOutBill.with {
     counterOrNorm = isCounter ? coldWaterCounterOut : coldWaterNormOut
 }
 
-//РџР»Р°С‚РµР¶РєР° Р·Р° РіРѕСЂСЏС‡СѓСЋ РІРѕРґСѓ
+//Платежка за горячую воду
 def hotWaterBill = new Bill()
 hotWaterBill.with {
     client = payer
     organisation = chTEC
     flatToPay = flat
 
-    nameBill = 'Р’РћР”РћРЎРќРђР‘Р–Р•РќРР• (Р“Р’РЎ)'
+    nameBill = 'ВОДОСНАБЖЕНИЕ (ГВС)'
     debt = 204.33
     recalculation = -49.11
     payed = 204.33
@@ -1169,14 +1169,14 @@ hotWaterBill.with {
     counterOrNorm = isCounter ? hotWaterCounter : hotWaterNorm
 }
 
-//РџР»Р°С‚РµР¶РєР° Р·Р° РѕС‚РѕРїР»РµРЅРёРµ
+//Платежка за отопление
 def heatBill = new Bill()
 heatBill.with {
     client = payer
     organisation = chTEC
     flatToPay = flat
 
-    nameBill = 'РћРўРћРџР›Р•РќРР•'
+    nameBill = 'ОТОПЛЕНИЕ'
     debt = -85.59
     recalculation = 0.00
     payed = 0.00
@@ -1187,14 +1187,14 @@ heatBill.with {
     counterOrNorm = isCounter ? heatCounter : heatNorm
 }
 
-//РџР»Р°С‚РµР¶РєР° РЎРЈР‘
+//Платежка СУБ
 def subBill = new Bill()
 subBill.with {
     client = payer
     organisation = dneprSUB
     flatToPay = flat
 
-    nameBill = 'РЎРЈР‘'
+    nameBill = 'СУБ'
     debt = 64.35
     recalculation = 0.00
     payed = 64.35
@@ -1205,14 +1205,14 @@ subBill.with {
     counterOrNorm = subNorm
 }
 
-//РџР»Р°С‚РµР¶РєР° Р·Р° РІС‹РІРѕР· РјСѓСЃРѕСЂР°
+//Платежка за вывоз мусора
 def trashBill = new Bill()
 trashBill.with {
     client = payer
     organisation = cleenService
     flatToPay = flat
 
-    nameBill = 'Р’Р«Р’РћР— РњРЈРЎРћР Рђ'
+    nameBill = 'ВЫВОЗ МУСОРА'
     debt = 9.21
     recalculation = 0.00
     payed = 9.21
@@ -1224,18 +1224,18 @@ trashBill.with {
 }
 
 
-//--------------------Р’Р«Р’РћР” Р Р•Р—РЈР›Р¬РўРђРўРћР’-------------------
-println '-----------------------------------------РЎР•РљР¦РРЇ 1-----------------------------------------------'
-println '---------------------РџСЂРѕСЃС‚РѕР№ РІС‹РІРѕРґ РёРЅС„РѕСЂРјР°С†РёРё СЂР°Р·РЅРѕРѕР±СЂР°Р·РЅС‹РјРё СЃРїРѕСЃРѕР±Р°РјРё--------------------------'
+//--------------------ВЫВОД РЕЗУЛЬТАТОВ-------------------
+println '-----------------------------------------СЕКЦИЯ 1-----------------------------------------------'
+println '---------------------Простой вывод информации разнообразными способами--------------------------'
 println '************************************************************************************************\n'
 
-println "РђРґСЂРµСЃСЃ РєРІР°СЂС‚РёСЂС‹: $flat.fullAddress"
-println "РћРїРёСЃР°РЅРёРµ РєРІР°СЂС‚РёСЂС‹ С‡РµСЂРµР· Р°РЅРЅРѕС‚Р°С†РёСЋ: $flat.printName\n"
+println "Адресс квартиры: $flat.fullAddress"
+println "Описание квартиры через аннотацию: $flat.printName\n"
 
-println "РђРґСЂРµСЃ РїР»Р°С‚РµР»СЊС‰РёРєР°: $payer.fullAddress"
-println "РџРѕР»РЅРѕРµ РёРјСЏ РїР»Р°С‚РµР»СЊС‰РёРєР°: $payer.fullName"
-println "РљРѕСЂРѕС‚РєРѕРµ РёРјСЏ РїР»Р°С‚РµР»СЊС‰РёРєР°: $payer.shortName"
-println "РћРїРёСЃР°РЅРёРµ РїР»Р°С‚РµР»СЊС‰РёРєР° С‡РµСЂРµР· Р°РЅРЅРѕС‚Р°С†РёСЋ: $payer.printName\n"
+println "Адрес плательщика: $payer.fullAddress"
+println "Полное имя плательщика: $payer.fullName"
+println "Короткое имя плательщика: $payer.shortName"
+println "Описание плательщика через аннотацию: $payer.printName\n"
 
 //println gasSbut.fullName
 //println gasSbut.fullAddress
@@ -1259,35 +1259,35 @@ println "РћРїРёСЃР°РЅРёРµ РїР»Р°С‚РµР»СЊС‰РёРєР° С‡РµСЂРµР· Р°РЅРЅРѕС‚Р°С†РёСЋ: 
 //println waterChannelOut.fullAddress
 //println waterChannelOut.fullRequisite
 
-println "Р“Р°Р· РїРѕ РЅРѕСЂРјРµ (Р±РµР· РѕРєСЂСѓРіР»РµРЅРёСЏ BigDecimal): $gasNorm.amount"
-println "Р“РѕСЂСЏС‡Р°СЏ РІРѕРґР° РїРѕ РЅРѕСЂРјРµ (Р±РµР· РѕРєСЂСѓРіР»РµРЅРёСЏ BigDecimal): $hotWaterNorm.amount"
-println "Р’РѕРґРѕСЃРЅР°Р±Р¶РµРЅРёРµ РїРѕ РЅРѕСЂРјРµ (Р±РµР· РѕРєСЂСѓРіР»РµРЅРёСЏ BigDecimal): $coldWaterNorm.amount"
-println "Р’РѕРґРѕРѕС‚РІРµРґРµРЅРёРµ РїРѕ РЅРѕСЂРјРµ (Р±РµР· РѕРєСЂСѓРіР»РµРЅРёСЏ BigDecimal): $coldWaterNormOut.amount"
-println "РћС‚РѕРїР»РµРЅРёРµ РїРѕ РЅРѕСЂРјРµ (Р±РµР· РѕРєСЂСѓРіР»РµРЅРёСЏ BigDecimal): $heatNorm.amount"
-println "РЎРЈР‘ (Р±РµР· РѕРєСЂСѓРіР»РµРЅРёСЏ BigDecimal): $subNorm.amount"
-println "Р’С‹РІРѕР· РјСѓСЃРѕСЂР° (Р±РµР· РѕРєСЂСѓРіР»РµРЅРёСЏ BigDecimal): $trashNorm.amount"
+println "Газ по норме (без округления BigDecimal): $gasNorm.amount"
+println "Горячая вода по норме (без округления BigDecimal): $hotWaterNorm.amount"
+println "Водоснабжение по норме (без округления BigDecimal): $coldWaterNorm.amount"
+println "Водоотведение по норме (без округления BigDecimal): $coldWaterNormOut.amount"
+println "Отопление по норме (без округления BigDecimal): $heatNorm.amount"
+println "СУБ (без округления BigDecimal): $subNorm.amount"
+println "Вывоз мусора (без округления BigDecimal): $trashNorm.amount"
 
-println "\nРЎС‡РµС‚С‡РёРє С‚РµРїР»Р° (С‡РµСЂРµР· Р°РЅРЅРѕС‚Р°С†РёСЋ): $heatCounter"
-println "\nРћС‚РѕРїР»РµРЅРёРµ РїРѕ СЃС‡РµС‚С‡РёРєСѓ - $heatCounter.amount"
-println "\nРЎС‡РµС‚С‡РёРє РіРѕСЂСЏС‡РµР№ РІРѕРґС‹ (С‡РµСЂРµР· Р°РЅРЅРѕС‚Р°С†РёСЋ): $hotWaterCounter"
-println "\nР“РѕСЂСЏС‡Р°СЏ РІРѕРґР° РїРѕ СЃС‡РµС‚С‡РёРєСѓ - $hotWaterCounter.amount"
-println "\nРЎС‡РµС‚С‡РёРє С…РѕР»РѕРґРЅРѕР№ РІРѕРґС‹ (РїРѕС‚СЂРµР±Р»РµРЅРёРµ): $coldWaterCounter"
-println "\nР’РѕРґРѕСЃРЅР°Р±Р¶РµРЅРёРµ РїРѕ СЃС‡РµС‚С‡РёРєСѓ - $coldWaterCounter.amount"
-println "\nРЎС‡РµС‚С‡РёРє С…РѕР»РѕРґРЅРѕР№ РІРѕРґС‹ (РІРѕРґРѕРѕС‚РІРµРґРµРЅРёРµ, С‡РµСЂРµР· Р°РЅРЅРѕС‚Р°С†РёСЋ): $coldWaterCounterOut"
-println "\nР’РѕРґРѕС‚РІРµРґРµРЅРёРµ РїРѕ СЃС‡РµС‚С‡РёРєСѓ - $coldWaterCounterOut.amount"
-println "\nРЎС‡РµС‚С‡РёРє РіР°Р·Р° (С‡РµСЂРµР· Р°РЅРЅРѕС‚Р°С†РёСЋ): $gasCounter"
-println "\nР“Р°Р· РїРѕ СЃС‡РµС‚С‡РёРєСѓ $gasCounter.amount"
-println "\nРЎС‡РµС‚С‡РёРє СЌР»РµРєС‚СЂРѕСЌРЅРµСЂРіРёРё (1 С‚Р°СЂРёС„, С‡РµСЂРµР· Р°РЅРЅРѕС‚Р°С†РёСЋ): $elCounter.printName"
-println "\n1-Р·РѕРЅРЅС‹Р№ СЌР»РµРєС‚СЂРѕСЃС‡РµС‚С‡РёРє СЃ С‚СЂРµР№С‚РѕРј РїРѕРґСЃС‡РµС‚Р° СЃС‚РѕРёРјРѕСЃС‚Рё - $elCounter.amount"
-println "\nРЎС‡РµС‚С‡РёРє СЌР»РµРєС‚СЂРѕСЌРЅРµСЂРіРёРё (2 С‚Р°СЂРёС„Р°, С‡РµСЂРµР· Р°РЅРЅРѕС‚Р°С†РёСЋ): $elCounter_2.printName"
-println "\n2-Р·РѕРЅРЅС‹Р№ СЌР»РµРєС‚СЂРѕСЃС‡РµС‚С‡РёРє СЃ С‚СЂРµР№С‚РѕРј РїРѕРґСЃС‡РµС‚Р° СЃС‚РѕРёРјРѕСЃС‚Рё - $elCounter_2.amount"
-println "\nРЎС‡РµС‚С‡РёРє СЌР»РµРєС‚СЂРѕСЌРЅРµСЂРіРёРё (3 С‚Р°СЂРёС„Р°, С‡РµСЂРµР· Р°РЅРЅРѕС‚Р°С†РёСЋ): $elCounter_3.printName"
-println "\n3-Р·РѕРЅРЅС‹Р№ СЌР»РµРєС‚СЂРѕСЃС‡РµС‚С‡РёРє СЃ С‚СЂРµР№С‚РѕРј РїРѕРґСЃС‡РµС‚Р° СЃС‚РѕРёРјРѕСЃС‚Рё - $elCounter_3.amount"
-println "\nРЎС‡РµС‚С‡РёРє СЌР»РµРєС‚СЂРѕСЌРЅРµСЂРіРёРё (1 С‚Р°СЂРёС„, РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ, С‡РµСЂРµР· Р°РЅРЅРѕС‚Р°С†РёСЋ): $elCounter_4"
-println "\n1-Р·РѕРЅРЅС‹Р№ РґРµС„РѕР»С‚РЅС‹Р№ СЌР»РµРєС‚СЂРѕСЃС‡РµС‚С‡РёРє - $elCounter_4.amount"
+println "\nСчетчик тепла (через аннотацию): $heatCounter"
+println "\nОтопление по счетчику - $heatCounter.amount"
+println "\nСчетчик горячей воды (через аннотацию): $hotWaterCounter"
+println "\nГорячая вода по счетчику - $hotWaterCounter.amount"
+println "\nСчетчик холодной воды (потребление): $coldWaterCounter"
+println "\nВодоснабжение по счетчику - $coldWaterCounter.amount"
+println "\nСчетчик холодной воды (водоотведение, через аннотацию): $coldWaterCounterOut"
+println "\nВодотведение по счетчику - $coldWaterCounterOut.amount"
+println "\nСчетчик газа (через аннотацию): $gasCounter"
+println "\nГаз по счетчику $gasCounter.amount"
+println "\nСчетчик электроэнергии (1 тариф, через аннотацию): $elCounter.printName"
+println "\n1-зонный электросчетчик с трейтом подсчета стоимости - $elCounter.amount"
+println "\nСчетчик электроэнергии (2 тарифа, через аннотацию): $elCounter_2.printName"
+println "\n2-зонный электросчетчик с трейтом подсчета стоимости - $elCounter_2.amount"
+println "\nСчетчик электроэнергии (3 тарифа, через аннотацию): $elCounter_3.printName"
+println "\n3-зонный электросчетчик с трейтом подсчета стоимости - $elCounter_3.amount"
+println "\nСчетчик электроэнергии (1 тариф, по умолчанию, через аннотацию): $elCounter_4"
+println "\n1-зонный дефолтный электросчетчик - $elCounter_4.amount"
 
-println '\n-----------------------------------------РЎР•РљР¦РРЇ 2-----------------------------------------------'
-println '-------------------------------------Р’С‹РІРѕРґ РїР»Р°С‚РµР¶РµРє---------------------------------------------'
+println '\n-----------------------------------------СЕКЦИЯ 2-----------------------------------------------'
+println '-------------------------------------Вывод платежек---------------------------------------------'
 println '************************************************************************************************\n'
 
 println "$gasBill.billing\n"
