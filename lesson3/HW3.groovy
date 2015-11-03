@@ -514,13 +514,9 @@ class HeatNorm extends Norm implements CounterIF {
     def setTariff() {
         norm = heatArea
         // Òàðèô ñ ìàÿ ïî ñåíòÿáðü
-        if ( Bill.date[Calendar.MONTH] >= 4 && Bill.date[Calendar.MONTH] <= 8) {
-            tariff = 0
-        }
+        if ( Bill.date[Calendar.MONTH] >= 4 && Bill.date[Calendar.MONTH] <= 8) tariff = 0
         // Òàðèô ñ îêòÿáðÿ ïî àïðåëü
-        else {
-            tariff = 16.42
-        }
+        else tariff = 16.42
     }
 }
 
@@ -574,7 +570,7 @@ class Organisation implements PrintClassT {
     String nameOrganisation
 
     String getFullName() {
-        "Íàèìåíîâàíèå: $nameOrganisation"
+        "$nameOrganisation"
     }
 }
 
@@ -672,7 +668,7 @@ class Bill implements BillingIF, PrintClassT {
         ( debt + counted + recalculation - payed - subsidy ).setScale( 2, BigDecimal.ROUND_HALF_UP )
     }
 
-    //Âîçâðàùàåò ðàâåíñòâî âûñ÷èòàííîãî ê îïëàòå è ïîêàçàíèé ñ÷åò÷èêà (íîðìû)
+    //Âîçâðàùàåò ðàâåíñòâî âûñ÷èòàííîãî ê îïëàòå è âûñòàâëåííîãî îðãàíèçàöèåé
     boolean isValidate() {
         mustBePayed == toPay
     }
@@ -682,7 +678,7 @@ class Bill implements BillingIF, PrintClassT {
         def printBilling =
                 """
         -----------------------------------------------------${nameBill}---------------------------------------------------------
-        Ïëàòåëüùèê: $client.shortName
+        Ïëàòåëüùèê: $client.shortName, ë/ñ: $client.personalAccount
         Àäðåñ ïëàòåëüùèêà: $client.shortAddress
         Àäðåñ êâàðòèðû: $flatToPay.shortAddress
         Îðãàíèçàöèÿ: $organisation.fullName
@@ -693,28 +689,24 @@ class Bill implements BillingIF, PrintClassT {
         Äîëã: $debt | Ïåðåðàñ÷åò: $recalculation | Îïëàòà: $payed | Ñóáñèäèÿ: $subsidy | Âûñòàâëåíî îðãàíèçàöèåé ê îïëàòå: $mustBePayed |
         -------------------------------------------------------------------------------------------------------------------------------------
         """
-        if ( isCounter ) {
-            printBilling +=
-                    """                                                                  Íàñ÷èòàíî ê îïëàòå ïî ñ÷åò÷èêó: $counted |
+        if ( isCounter ) printBilling +=
+                """                                                                  Íàñ÷èòàíî ê îïëàòå ïî ñ÷åò÷èêó: $counted |
         -------------------------------------------------------------------------------------------------------------------------------------
         """
-        }
-        else {
-            printBilling +=
-                    """                                                                     Íàñ÷èòàíî ê îïëàòå ïî íîðìå: $counted |
+        else printBilling +=
+                """                                                                     Íàñ÷èòàíî ê îïëàòå ïî íîðìå: $counted |
         -------------------------------------------------------------------------------------------------------------------------------------
         """
-        }
+
         printBilling +=
                 """                                 Ïîñ÷èòàíî ïðîãðàììîé ê îïëàòå ñ ó÷åòîì ïîêàçàíèé ñ÷åò÷èêà (íîðìû): $toPay |
         -------------------------------------------------------------------------------------------------------------------------------------
         """
-        if ( !validate ) {
-            printBilling +=
-                    """          ÂÍÈÌÀÍÈÅ! ÂÛÑÒÀÂËÅÍÍÛÉ ÎÐÃÀÍÈÇÀÖÈÅÉ Ñ×ÅÒ ÍÅ ÑÎÎÒÂÅÒÑÒÂÓÅÒ ÐÀÑÑ×ÈÒÀÍÍÎÌÓ ÏÐÎÃÐÀÌÌÎÉ ÇÍÀ×ÅÍÈÞ! ÎÁÐÀÒÈÒÅÑÜ Â ÀÁÎÍÎÒÄÅË!
+
+        if ( !validate ) printBilling +=
+                """          ÂÍÈÌÀÍÈÅ! ÂÛÑÒÀÂËÅÍÍÛÉ ÎÐÃÀÍÈÇÀÖÈÅÉ Ñ×ÅÒ ÍÅ ÑÎÎÒÂÅÒÑÒÂÓÅÒ ÐÀÑÑ×ÈÒÀÍÍÎÌÓ ÏÐÎÃÐÀÌÌÎÉ ÇÍÀ×ÅÍÈÞ! ÎÁÐÀÒÈÒÅÑÜ Â ÀÁÎÍÎÒÄÅË!
         -------------------------------------------------------------------------------------------------------------------------------------
         """
-        }
         return printBilling
     }
 }
