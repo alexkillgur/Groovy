@@ -61,6 +61,8 @@ trait AddressT {
             strAddr += ", кв. $numFlat"
         return strAddr
     }
+
+    String toString() { super.toString() }
 }
 
 //Трейт, содержащий банковские реквизиты
@@ -71,15 +73,10 @@ trait BankT {
     String ZKPO
 
     String getFullRequisite() {
-        "Наименование: $nameBank, р/р: $checkingAccount, МФО: $MFO, ЕДРПОУ (ЗКПО): $ZKPO"
+        "$nameBank, р/р: $checkingAccount, МФО: $MFO, ЕДРПОУ (ЗКПО): $ZKPO"
     }
-}
 
-//Интерфейс для печати с заглушкой в обход трейтов
-trait PrintClassT {
-    def getPrintName() {
-        this
-    }
+    String toString() { super.toString() }
 }
 
 //Общий интерфейс счетчика
@@ -103,6 +100,7 @@ trait OneElectroZoneT {
         return cycleOnUsed( used_1, zoneElFactor[0] )
     }
 
+    String toString() { super.toString() }
 }
 
 //Трейт для двухтарифного электростчечика
@@ -117,6 +115,8 @@ trait TwoElectroZoneT implements OneElectroZoneT {
 
         return sum + cycleOnUsed( used_2, zoneElFactor[1] )
     }
+
+    String toString() { super.toString() }
 }
 
 //Трейт для трехтарифного электростчечика
@@ -131,6 +131,8 @@ trait ThreeElectroZoneT implements TwoElectroZoneT {
 
         return sum + cycleOnUsed( used_3, zoneElFactor[2] )
     }
+
+    String toString() { super.toString() }
 }
 
 //Класс для общего описания счетчика
@@ -146,7 +148,7 @@ abstract class Counter {
 
 //Электрический счетчик
 @ToString ( includeNames = true, includeFields = true, includeSuper = true )
-abstract class ElectroCounter extends Counter implements CounterIF, PrintClassT {
+abstract class ElectroCounter extends Counter implements CounterIF {
     def limitation = [] //Сетка лимитов
 
     ElectroConsumerType electroConsumerType //Тип электропотребителя
@@ -447,13 +449,11 @@ class GasNorm extends Norm implements CounterIF {
                 break
             case GasNormType.NORM_4:
                 // Тариф с мая по сентябрь
-                if ( Bill.date[Calendar.MONTH] >= 4 && Bill.date[Calendar.MONTH] <= 8) {
+                if ( Bill.date[Calendar.MONTH] >= 4 && Bill.date[Calendar.MONTH] <= 8)
                     norm = ( numRegistration + numAnimal <= 3 ) ? 70 : ( 70 + 11*( numRegistration + numAnimal - 3 ) )
-                }
                 // Тариф с октября по апрель
-                else {
+                else
                     norm = ( heatArea <= 20 ) ? 20 : ( 20 + 11*( heatArea - 20 ) )
-                }
                 break
             case GasNormType.NORM_5:
                 norm = 11*heatArea
@@ -546,7 +546,7 @@ class TrashNorm extends Norm implements CounterIF {
 
 //Класс для описания квартиры, за которую платит плательщик
 @ToString ( includeNames = true, includeFields = true )
-class Flat implements PrintClassT {
+class Flat {
     def allArea //Общая площадь
     def heatArea //Отапливаемая площадь
     int numRegistration //Количество прописанных
@@ -566,7 +566,7 @@ class Flat implements PrintClassT {
 
 //Класс для описания организации, которая выставила счет
 @ToString ( includeNames = true, includeFields = true )
-class Organisation implements PrintClassT {
+class Organisation {
     String nameOrganisation
 
     String getFullName() {
@@ -598,7 +598,7 @@ trait UpperT implements TransformerIF {
 
 //Класс для общего описания плательщика
 @ToString ( includeNames = true, includeFields = true )
-class Payer implements PrintClassT, DefaultTransformerT, UpperT {
+class Payer implements DefaultTransformerT, UpperT {
     String firstName
     String lastName
     String patronymic
@@ -613,7 +613,7 @@ class Payer implements PrintClassT, DefaultTransformerT, UpperT {
     }
 }
 
-//
+//Интерфейс для счета
 interface BillingIF {
     def getMonth()
     def getCounted()
@@ -624,7 +624,7 @@ interface BillingIF {
 
 //Класс для общего описания платежки
 @ToString ( includeNames = true, includeFields = true )
-class Bill implements BillingIF, PrintClassT {
+class Bill implements BillingIF {
     static date //Месяц, за который выставлен счет
 
     String nameBill
@@ -781,9 +781,9 @@ gasSbut.with {
     nameBank = 'Черкасское областное управление АО "Сбербанк"'
     checkingAccount = '26030301127727'
     MFO = '354507'
+    ZKPO = '39672471'
     //Наименование
     nameOrganisation = 'ООО "Черкассыгаз Сбыт"'
-    ZKPO = '39672471'
 }
 
 //Создаем Облэнерго
@@ -801,9 +801,9 @@ oblEnergo.with {
     nameBank = 'Черкасское областное управление АО "Сбербанк"'
     checkingAccount = '26037300182'
     MFO = '354507'
+    ZKPO = '25204608'
     //Наименование
     nameOrganisation = 'ЗАО "Черкассыоблэнерго" Черкасский городской РЭС'
-    ZKPO = '25204608'
 }
 
 //Создаем ТЭЦ
@@ -821,9 +821,9 @@ chTEC.with {
     nameBank = 'Черкасское областное управление АО "Сбербанк"'
     checkingAccount = '26039341100255'
     MFO = '354507'
+    ZKPO = '00204033'
     //Наименование
     nameOrganisation = 'Черкасская ТЭЦ'
-    ZKPO = '00204033'
 }
 
 //Создаем Службу Чистоты
@@ -841,9 +841,9 @@ cleenService.with {
     nameBank = 'ЧГРУ ЗАО КБ "Приватбанк"'
     checkingAccount = '26004060191291'
     MFO = '354347'
+    ZKPO = '03328652'
     //Наименование
     nameOrganisation = 'КП "Черкасская служба чистоты"'
-    ZKPO = '03328652'
 }
 
 //Создаем Приднепровский СУБ
@@ -861,9 +861,9 @@ dneprSUB.with {
     nameBank = 'ЧОУ АБ "Укргазбанк"'
     checkingAccount = '2600546919'
     MFO = '320478'
+    ZKPO = '36701792'
     //Наименование
     nameOrganisation = 'КП "Приднепровская ССД"'
-    ZKPO = '36701792'
 }
 
 //Создаем Черкассыводоканал для централизованного водоснабжения
@@ -881,9 +881,9 @@ waterChannel.with {
     nameBank = 'ЧГРУ ЗАО КБ "Приватбанк"'
     checkingAccount = '26003060347905'
     MFO = '354347'
+    ZKPO = '03357168'
     //Наименование
     nameOrganisation = 'КП "Черкассыводоканал"'
-    ZKPO = '03357168'
 }
 
 //Создаем Черкассыводоканал для централизованного водоотведения
@@ -901,9 +901,9 @@ waterChannelOut.with {
     nameBank = 'АО "УкрСиббанк"'
     checkingAccount = '26003314673900'
     MFO = '354347'
+    ZKPO = '03357168'
     //Наименование
     nameOrganisation = 'КП "Черкассыводоканал"'
-    ZKPO = '03357168'
 }
 
 //Считаем газ по норме
@@ -1222,12 +1222,12 @@ println '---------------------Простой вывод информации разнообразными способами-
 println '************************************************************************************************\n'
 
 println "Адресс квартиры: $flat.fullAddress"
-println "Описание квартиры через аннотацию: $flat.printName\n"
+println "Описание квартиры через аннотацию: $flat\n"
 
 println "Адрес плательщика: $payer.fullAddress"
 println "Полное имя плательщика: $payer.fullName"
 println "Короткое имя плательщика: $payer.shortName"
-println "Описание плательщика через аннотацию: $payer.printName\n"
+println "Описание плательщика через аннотацию: $payer\n"
 
 //println gasSbut.fullName
 //println gasSbut.fullAddress
@@ -1269,16 +1269,29 @@ println "\nСчетчик холодной воды (водоотведение, через аннотацию): $coldWaterCou
 println "\nВодотведение по счетчику - $coldWaterCounterOut.amount"
 println "\nСчетчик газа (через аннотацию): $gasCounter"
 println "\nГаз по счетчику $gasCounter.amount"
-println "\nСчетчик электроэнергии (1 тариф, через аннотацию): $elCounter.printName"
+println "\nСчетчик электроэнергии (1 тариф, через аннотацию): $elCounter"
 println "\n1-зонный электросчетчик с трейтом подсчета стоимости - $elCounter.amount"
-println "\nСчетчик электроэнергии (2 тарифа, через аннотацию): $elCounter_2.printName"
+println "\nСчетчик электроэнергии (2 тарифа, через аннотацию): $elCounter_2"
 println "\n2-зонный электросчетчик с трейтом подсчета стоимости - $elCounter_2.amount"
-println "\nСчетчик электроэнергии (3 тарифа, через аннотацию): $elCounter_3.printName"
+println "\nСчетчик электроэнергии (3 тарифа, через аннотацию): $elCounter_3"
 println "\n3-зонный электросчетчик с трейтом подсчета стоимости - $elCounter_3.amount"
 println "\nСчетчик электроэнергии (1 тариф, по умолчанию, через аннотацию): $elCounter_4"
 println "\n1-зонный дефолтный электросчетчик - $elCounter_4.amount"
 
-println '\n-----------------------------------------СЕКЦИЯ 2-----------------------------------------------'
+println '\n-------------------------------------------СЕКЦИЯ 2---------------------------------------------'
+println '--------------------------------Вывод платежек через аннотации----------------------------------'
+println '************************************************************************************************\n'
+
+println "ГАЗ: $gasBill\n"
+println "ЭЛЕКТРИЧЕСТВО: $electroBill\n"
+println "ХОЛОДНАЯ ВОДА (ХВС): $coldWaterBill\n"
+println "ВОДООТВЕДЕНИЕ: $coldWaterOutBill\n"
+println "ГОРЯЧАЯ ВОДА (ГВС): $hotWaterBill\n"
+println "ОТОПЛЕНИЕ: $heatBill\n"
+println "СУБ: $subBill\n"
+println "ВЫВОЗ МУСОРА: $trashBill\n"
+
+println '\n-----------------------------------------СЕКЦИЯ 3-----------------------------------------------'
 println '-------------------------------------Вывод платежек---------------------------------------------'
 println '************************************************************************************************\n'
 
