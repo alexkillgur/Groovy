@@ -37,10 +37,11 @@ class Transporter {
                     break
             //Колеса
                 case ( 'WHEELS' ):
-                    builder.&makeWheel( Car.SideType.LEFT, Car.PlacementType.FRONT )
-                    builder.&makeWheel( Car.SideType.RIGHT, Car.PlacementType.FRONT )
-                    builder.&makeWheel( Car.SideType.LEFT, Car.PlacementType.BACK )
-                    builder.&makeWheel( Car.SideType.RIGHT, Car.PlacementType.BACK )
+//                    builder.&makeWheel( Car.SideType.LEFT, Car.PlacementType.FRONT )
+//                    builder.&makeWheel( Car.SideType.RIGHT, Car.PlacementType.FRONT )
+//                    builder.&makeWheel( Car.SideType.LEFT, Car.PlacementType.BACK )
+//                    builder.&makeWheel( Car.SideType.RIGHT, Car.PlacementType.BACK )
+                    builder.makeWheels()
                     break
             //Двигатель
                 case ( 'ENGINE' ):

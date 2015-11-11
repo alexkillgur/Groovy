@@ -37,9 +37,20 @@ class PassengerCarBuilder extends CarBuilder {
         }
     }
 
-    //Установка колес
+    //Установка колес метод
     def makeWheel( Car.SideType sideType, Car.PlacementType placementType ) {
         finalCar.wheelsInstalled = installWheel( finalCar.wheelsInstalled, sideType, placementType )
+    }
+
+    //Установка колес замыкание
+    def makeWheels = {
+        Car.PlacementType.each { placementType ->
+            Car.SideType.each { sideType ->
+                if ( sideType != Car.SideType.NONE ) {
+                    finalCar.wheelsInstalled = installWheel( finalCar.wheelsInstalled, sideType, placementType )
+                }
+            }
+        }
     }
 
     //Установка дверей
