@@ -95,7 +95,7 @@ abstract class CarBuilder {
             }
         }.trampoline()
         numBolts = bolts( listOfParts )
-        return listOfParts << "BOLTS CLAMPING: $numBolts"
+        return listOfParts << "BOLTS CLAMPED: $numBolts"
     }
 
 //    //Красит что угодно
