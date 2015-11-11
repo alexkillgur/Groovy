@@ -37,8 +37,8 @@ class Car {
 
 //    public Map configuration
     Map configuration
-    String[] doorsInstalled //Массив установленных дверей
-    String[] wheelsInstalled //Массив установленных колес
-    String[] engineInstalled //Массив установленного двигателя
+    def doorsInstalled //Массив установленных дверей
+    def wheelsInstalled //Массив установленных колес
+    def engineInstalled //Массив установленного двигателя
     Map colorsPaint //Карта покраски
 }

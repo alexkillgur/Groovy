@@ -15,16 +15,21 @@ class PassengerCarBuilder extends CarBuilder {
             configuration = [
                     model: getStringProperty( configurationFile, 'MODEL' ),
                     maxSpeed: getIntFromStringProperty( configurationFile, 'MAX_SPEED' ),
-                    doorsNum: getIntFromStringProperty( configurationFile, 'DOORS' ),
+                    doors: [
+                            doorsNum: getIntProperty( getListFromStringProperty( configurationFile, 'DOORS' )[0] ),
+                            numBolts: getIntProperty( getListFromStringProperty( configurationFile, 'DOORS' )[1] )
+                    ],
                     wheels: [
                             num: getIntProperty( getListFromStringProperty( configurationFile, 'WHEELS' )[0] ),
-                            diameter: getListFromStringProperty( configurationFile, 'WHEELS')[1]
+                            diameter: getListFromStringProperty( configurationFile, 'WHEELS' )[1],
+                            numBolts: getIntProperty( getListFromStringProperty( configurationFile, 'WHEELS' )[2] )
                     ],
                     engine: [
                             type: getEnumProperty( getListFromStringProperty( configurationFile, 'ENGINE' )[0], Car.EngineType.class ),
                             numCylinders: getIntProperty( getListFromStringProperty( configurationFile, 'ENGINE' )[1] ),
                             volume: getIntProperty( getListFromStringProperty( configurationFile, 'ENGINE' )[2] ),
-                            placement: getEnumProperty( getListFromStringProperty( configurationFile, 'ENGINE' )[3], Car.PlacementType.class )
+                            placement: getEnumProperty( getListFromStringProperty( configurationFile, 'ENGINE' )[3], Car.PlacementType.class ),
+                            numBolts: getIntProperty( getListFromStringProperty( configurationFile, 'ENGINE' )[4] )
                     ],
                     colors: getListFromStringProperty( configurationFile, 'COLOR' ).each { color ->
                         getEnumProperty( color, Car.ColorType.class )
@@ -51,6 +56,7 @@ class PassengerCarBuilder extends CarBuilder {
                 }
             }
         }
+        clampingBolts( finalCar.wheelsInstalled, finalCar.configuration.wheels.numBolts )
     }
 
     //Установка дверей
@@ -66,6 +72,7 @@ class PassengerCarBuilder extends CarBuilder {
     //Установка двигателя
     def makeEngine( Car.PlacementType placementType ) {
         finalCar.engineInstalled = installEngine( finalCar.engineInstalled, placementType )
+        clampingBolts( finalCar.engineInstalled, finalCar.configuration.engine.numBolts )
     }
 
     //Покраска

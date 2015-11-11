@@ -25,15 +25,17 @@ class Transporter {
                     builder.&makeDoor( Car.SideType.LEFT, Car.PlacementType.FRONT )
                     builder.&makeDoor( Car.SideType.RIGHT, Car.PlacementType.FRONT )
 
-                    if ( mapConfiguration.doorsNum > 2 && mapConfiguration.doorsNum != 3 ) {
+                    if ( mapConfiguration.doors.doorsNum > 2 && mapConfiguration.doors.doorsNum != 3 ) {
                         builder.&makeDoor( Car.SideType.LEFT, Car.PlacementType.BACK )
                         builder.&makeDoor( Car.SideType.RIGHT, Car.PlacementType.BACK )
                     }
 
                     //Хэтчбэк
-                    if ( mapConfiguration.doorsNum == 3 || mapConfiguration.doorsNum == 5 ) {
+                    if ( mapConfiguration.doors.doorsNum == 3 || mapConfiguration.doors.doorsNum == 5 ) {
                         builder.&makeHatchback( Car.PlacementType.BACK )
                     }
+
+                    builder.&clampingBolts( builder.car.doorsInstalled, mapConfiguration.doors.numBolts )
                     break
             //Колеса
                 case ( 'WHEELS' ):
