@@ -37,8 +37,8 @@ class Car {
 
 //    public Map configuration
     Map configuration
-    def doorsInstalled //Массив установленных дверей
-    def wheelsInstalled //Массив установленных колес
-    def engineInstalled //Массив установленного двигателя
+    List doorsInstalled //Массив установленных дверей
+    List wheelsInstalled //Массив установленных колес
+    List engineInstalled //Массив установленного двигателя
     Map colorsPaint //Карта покраски
 }

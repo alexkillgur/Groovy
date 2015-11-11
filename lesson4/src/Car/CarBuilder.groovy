@@ -53,7 +53,7 @@ abstract class CarBuilder {
     def getListFromStringProperty = getStringProperty >> getListProperty
 
     //Установка компонента
-    def installPart = { String part, partsList, Car.SideType sideType, Car.PlacementType placementType ->
+    def installPart = { String part, List partsList, Car.SideType sideType, Car.PlacementType placementType ->
         sideType == Car.SideType.NONE ? ( partsList += "${placementType}_${part}" ) : ( partsList += "${sideType}_${placementType}_${part}" )
     }
 
@@ -85,7 +85,7 @@ abstract class CarBuilder {
     def paintPrimer = paintPart.curry( Car.ColorType.DEAD_COLOR.toString() ).rcurry( Car.PaintType.PRIMER )
 
     //Зажимаем болты на чем угодно - мое корявое понимание работы рекурсии с методом trampoline(), честно взятом у mrhaki
-    def clampingBolts = { listOfParts, int numBolts ->
+    def clampingBolts = { List listOfParts, int numBolts ->
         def bolts
         bolts = { list, counter = 0 ->
             if ( list.size() == 0 ) {
