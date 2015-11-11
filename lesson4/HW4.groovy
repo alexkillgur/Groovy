@@ -57,7 +57,8 @@ def filterCars = { Closure filter, Car[] list -> list.findAll( filter ) }
 //Только BMW
 def filterBmw = { Car it -> it.configuration.model =~ /^BMW.*/ }
 def onlyBmw = filterCars.curry( filterBmw )
-def filterCarsList = onlyBmw( carsList )
+//def filterCarsList = onlyBmw( carsList )
+def filterCarsList = carsList.grep( onlyBmw )
 
 println "--------------ТОЛЬКО ВЫПУЩЕННЫЕ BMW:--------------\n"
 printList( filterCarsList )
@@ -66,7 +67,8 @@ println "--------------------------------------------------\n"
 //Автомобили с установленным сзади двигателем
 def filterEngineBack = { Car it -> it.engineInstalled[0] == 'BACK_ENGINE' }
 def engineBack = filterCars.curry( filterEngineBack )
-filterCarsList = engineBack( carsList )
+//filterCarsList = engineBack( carsList )
+filterCarsList = carsList.grep( engineBack )
 
 println "--------------ВЫПУЩЕННЫЕ АВТОМОБИЛИ С УСТАНОВЛЕННЫМ СЗАДИ ДВИГАТЕЛЕМ:--------------\n"
 printList( filterCarsList )
@@ -75,7 +77,8 @@ println "-----------------------------------------------------------------------
 //Автомобили, выкрашенные полностью в белый цвет
 def filterWhiteColor = { Car it -> it.colorsPaint[ ( Car.PaintType.ALL ) ] == Car.ColorType.WHITE.toString() }
 def whiteColor = filterCars.curry( filterWhiteColor )
-filterCarsList = whiteColor( carsList ).sort { a, b -> a.configuration.maxSpeed <=> b.configuration.maxSpeed }
+//filterCarsList = whiteColor( carsList ).sort { a, b -> a.configuration.maxSpeed <=> b.configuration.maxSpeed }
+filterCarsList = carsList.grep( whiteColor ).sort { a, b -> a.configuration.maxSpeed <=> b.configuration.maxSpeed }
 
 println "--------------ВЫПУЩЕННЫЕ АВТОМОБИЛИ ПОЛНОСТЬЮ БЕЛОГО ЦВЕТА, ОТСОРТИРОВАННЫЕ ПО МАКСИМАЛЬНОЙ СКОРОСТИ:--------------\n"
 printList( filterCarsList )
