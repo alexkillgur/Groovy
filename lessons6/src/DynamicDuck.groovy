@@ -76,7 +76,7 @@ class DynamicDuckBuilder {
         if ( name in [ 'say', 'loud', 'sing' ] ) {
             arguments.each { it ->
                 switch ( it ) {
-                    case String:
+                    case { it instanceof String || it instanceof Closure }:
                         dynamicDuck.quacks << it
                         break
                     case List:
@@ -84,9 +84,6 @@ class DynamicDuckBuilder {
                         break
                     case Map:
                         dynamicDuck.quacks += ( it['quack'] instanceof List ) ? it['quack'].join(' ') : it['quack']
-                        break
-                    case Closure:
-                        dynamicDuck.quacks << it
                         break
                 }
             }
