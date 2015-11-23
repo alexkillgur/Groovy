@@ -128,14 +128,15 @@ class TypeCheck {
         LinkedList linkedList = new ArrayList() // LinkedList не является суперклассом для ArrayList, fail without @TypeChecked( TypeCheckingMode.SKIP )
         linkedList << [ 1, [ name: 'killgur' ], new Date(), [ 'Croovy', 2 ] ]
         println """LinkedList linkedList = new ArrayList()
-        \rВ отличие от остальных примеров не выпадает при компиляции без аанотации @TypeChecked и работает в рантайме - $linkedList"""
+        \rНе выпадает при компиляции без аннотации @TypeChecked и работает в рантайме - $linkedList"""
 //        int iNull = null // В данном случае отвалится в рантайме
 //        int[] intArrayWithString = new String[4] // В данном случае отвалится в рантайме
 //        int[] intListWithDate = [1,2, new Date()] // В данном случае отвалится в рантайме
+//        RandomAccess randomAccess = new LinkedList() // В данном случае отвалится в рантайме
     }
 
     List list = new ArrayList() // ArrayList реализует интерфейс List
-    //RandomAccess randomAccess = new LinkedList() // LinkedList не реализует интерфейс RandomAccess, fail
+//    RandomAccess randomAccess = new LinkedList() // LinkedList не реализует интерфейс RandomAccess, fail
 }
 
 TypeCheck typeCheck = new TypeCheck()
@@ -208,20 +209,78 @@ class SomeClass {
     def someUntypedField
     String someTypedField
 
+    void sayHello( def string ) {
+        println "Hello from $string"
+    }
+
     @TypeChecked( TypeCheckingMode.SKIP )
     void someMethod() {
-        someUntypedField = '123'
+        someUntypedField = 'Some Method'
         someUntypedField = someUntypedField.toUpperCase()
+        sayHello( someUntypedField )
     }
 
     void someSafeMethod() {
-        someTypedField = '123'
+        someTypedField = 'Some Safe Method'
         someTypedField = someTypedField.toUpperCase()
+        sayHello( someTypedField )
     }
 
     void someMethodUsingLocalVariable() {
-        def localVariable = '123'
+        def localVariable = 'Some Method Using Local Variable'
         someUntypedField = localVariable.toUpperCase()
+        sayHello( someUntypedField )
     }
 }
+
+SomeClass someClass = new SomeClass()
+someClass.someMethod()
+someClass.someSafeMethod()
+someClass.someMethodUsingLocalVariable()
 //-----------------------------------------------------------
+
+// Ducks :)
+class CreateDucks {
+    // Список кряканья
+    def listOfQuacks = [ 'Ha-ha-ha!', "I'm a crazy dack! O_o" ]
+    // Карта кряканья со значением кряков в строке
+    def mapOfQuacks = [
+            quack: 'Hop-hey-la-la-ley!',
+            someFields: "This is not a quack! You should't see this!"
+    ]
+    // Карта кряканья со значением кряков в списке
+    def mapOfQuacksWitnList = [
+            quack: [ 'С точки зрения теории относительности все мы лишь маленькие песчинки в огромной Вселенной.', 'Что вы думаете о корпускулярно-волновой природе света?' ],
+            someOtherFields: "This is not a quack! You should't see this!"
+    ]
+
+    // Крякаем по замыканию
+    def closureQuack = { miltiply, ... quacks ->
+        quacks.join(' ').toUpperCase()*miltiply
+    }
+
+    // Собственно создаем динамическую утку
+    def dynamicDuckLizzy = new DynamicDuckBuilder().build {
+        name 'Lizzy'
+        isFlying true
+        quacking {
+            quack 'Quack!'
+            quack 'Bla-Bla-Bla!'
+            say this.listOfQuacks
+            say 'Mu-u-u!'
+            loud "Врагу не сдается наш гордый 'Варяг'!"
+            sing "I'm a Scatman!"
+            loud this.mapOfQuacks
+            quack this.mapOfQuacksWitnList
+            sing this.closureQuack( 3, 'o!', 'yeah! ' )
+            hi 'Ку-ку!'
+        }
+    }
+}
+
+println """\n-------------------------------------------------------------------
+\r-------------------- А теперь будут утки :) -----------------------
+\r-------------------------------------------------------------------\n"""
+
+def createDucks = new CreateDucks()
+createDucks.dynamicDuckLizzy.quacks()
