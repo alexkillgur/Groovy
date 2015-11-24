@@ -20,15 +20,18 @@ class StaticDuck {
         this.quacks = qua.quacks as List< String >
     }
 
+    // Ћибо летим, либо идем
     String fly( boolean isFluing ) {
         if ( isFlying ) 'flies' else 'walks'
     }
 
     void methodMissing( String name, arguments ) {
         if ( name in [ 'quacks', 'sings', 'speaks' ] ) {
+            // ≈сли разрешенные действи€ - значит делаем
             quack( this.quacking as Closure )
             println "The STATIC duck ${ this.name.toUpperCase() }" + " ${ fly( this.isFlying ) } and " + "$name: ${ this.quacks.join(' ') }"
         } else {
+            // ≈сли нет - значит, сорее всего, нас подстрелили :)
             println "The STATIC duck ${ this.name.toUpperCase() }" + " was shooted by hunter and can't " + "$name. RIP :("
         }
     }
@@ -39,6 +42,9 @@ class StaticDuck {
 class StaticQuacks {
     List< String > quacks = []
 
+    // √оворим, поем, громко кричим разными способами
+    // “еоретически можно самым наглым образом описать поведение дл€ разных вариантов кр€ков/кричалок/свистелок
+    // Ќе стал извращатьс€ дл€ компактности кода и привел все просто к одному поведению
     void methodMissing( String name, arguments ) {
         if ( name in [ 'quack', 'say', 'shout', 'sing' ] ) {
             arguments.each { it ->

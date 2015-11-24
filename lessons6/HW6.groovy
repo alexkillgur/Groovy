@@ -1,5 +1,6 @@
 /**
  * Created by Killgur on 22.11.2015.
+ * Летять утки :)
  */
 import groovy.transform.TypeChecked
 import groovy.transform.TypeCheckingMode
@@ -246,15 +247,16 @@ someClass.someMethodUsingLocalVariable()
 //-----------------------------------------------------------
 class CreateDynamicDucks {
     // Список кряканья
-    def listOfQuacks = [ 'Ha-ha-ha!', "I'm a crazy dack! O_o" ]
+    def listOfQuacks = [ 'Mu-u-u!', "I'm a crazy dack O_o!" ]
     // Карта кряканья со значением кряков в строке
     def mapOfQuacks = [
-            quack: 'Hop-hey-la-la-ley!',
+            quack: "Fear of the duck, fear of the duck - i have a constant fear that some duck's always near!",
             someFields: "This is not a quack! You should't see this!"
     ]
     // Карта кряканья со значением кряков в списке
     def mapOfQuacksWitnList = [
-            quack: [ 'С точки зрения теории относительности все мы лишь маленькие песчинки в огромной Вселенной.', 'Что вы думаете о корпускулярно-волновой природе света?' ],
+            quack: [ 'C тoчки зpeния бaнaльнoй эpyдиции нe кaждый лoкaльнo мыcлящий индивидyм cпocoбeн игнopиpoвaть тeндeнции пapaдoкcaльныx эмoций.',
+                     'Синусоидальность дидукционнго индуктора некоэмутируется с хромофорной эфузией аксирогентно-адиквантного фотонного триангулятора.' ],
             someOtherFields: "This is not a quack! You should't see this!"
     ]
 
@@ -264,27 +266,58 @@ class CreateDynamicDucks {
         result.trim()
     }
 
-    // Собственно создаем динамическую утку
+    // Собственно создаем динамическую утку Lizzy
     def dynamicDuckLizzy = new DynamicDuckBuilder().build {
         name 'Lizzy'
         isFlying true
         quacking {
             quack 'Quack!'
             quack 'Bla-Bla-Bla!'
-            say this.listOfQuacks
-            say 'Mu-u-u!'
-            shout "Врагу не сдается наш гордый 'Варяг'!"
-            shout "I'm a Scatman!"
-            shout this.mapOfQuacks
-            quack this.mapOfQuacksWitnList
-            sing this.closureQuack( 3, 'o!', 'yeah! ' )
+            shout this.listOfQuacks
+        }
+    }
+
+    // Собственно создаем динамическую утку Dizzy
+    def dynamicDuckDizzy = new DynamicDuckBuilder().build {
+        name 'Dizzy'
+        isFlying true
+        quacking {
+            sing this.mapOfQuacks
+            sing this.closureQuack( 2, 'o!', 'yeah! ' )
+        }
+    }
+
+    // Собственно создаем динамическую утку Shizzy
+    def dynamicDuckShizzy = new DynamicDuckBuilder().build {
+        name 'Shizzy'
+        isFlying false
+        quacking {
+            say this.mapOfQuacksWitnList
+            say "Неужели я это выговорила О_О?"
+        }
+    }
+
+    // Собственно создаем динамическую утку Grizly
+    def dynamicDuckGrizly = new DynamicDuckBuilder().build {
+        name 'Grizly'
+        isFlying false
+        quacking {
             hi 'Ку-ку!'
+        }
+    }
+
+    // Собственно создаем динамическую утку DeadDuck
+    def dynamicDuckDeadDuck = new DynamicDuckBuilder().build {
+        name 'DeadDuck'
+        isFlying false
+        quacking {
+            hi 'La-la-la!'
         }
     }
 }
 
 println """\n-------------------------------------------------------------------
-\r-------------------- А теперь будут утки :) -----------------------
+\r------------------------ ЛЕТЯТЬ УТКИ :) ---------------------------
 \r-------------------------------------------------------------------\n"""
 
 //-----------------------------------------------------------
@@ -292,22 +325,54 @@ println """\n-------------------------------------------------------------------
 //-----------------------------------------------------------
 def createDynamicDucks = new CreateDynamicDucks()
 createDynamicDucks.dynamicDuckLizzy.quacks()
-createDynamicDucks.dynamicDuckLizzy.laughs()
+println()
+createDynamicDucks.dynamicDuckDizzy.sings()
+println()
+createDynamicDucks.dynamicDuckShizzy.speaks()
+println()
+createDynamicDucks.dynamicDuckGrizly.quacks()
+println()
+createDynamicDucks.dynamicDuckDeadDuck.laughs()
+println()
 
 //-----------------------------------------------------------
 // Теперь статические
 //-----------------------------------------------------------
-List< String > listOfQuacks = [ "Ha-ha-ha!", "I'm a crazy dack! O_o" ]
-LinkedHashMap< String, String > mapOfQuacks = [ quack: "Hop-hey-la-la-ley!", someFields: "This is not a quack! You should't see this!" ]
-LinkedHashMap< String, Object > mapOfQuacksWitnList = [ quack: [ 'С точки зрения теории относительности все мы лишь маленькие песчинки в огромной Вселенной.', 'Что вы думаете о корпускулярно-волновой природе света?' ], someOtherFields: "This is not a quack! You should't see this!" ]
+List< String > listOfQuacks = [ "Врагу не сдается наш гордый 'МакКряк'!", "Пощады никто не желает!" ]
+LinkedHashMap< String, String > mapOfQuacks = [
+        quack: "New duck joins this earth, and quickly it's subdued!",
+        someFields: "This is not a quack! You should't see this!"
+]
+LinkedHashMap< String, Object > mapOfQuacksWitnList = [
+        quack: [ """\nС точки зpения банальной эpудиции, каждый пpоизвольно выбpанный пpедикативно абсоpбиpующий обьект
+                    \rpациональной мистической индукции можно дискpетно детеpминиpовать с аппликацией ситуационной паpадигмы
+                    \rкоммуникативно-функционального типа пpи наличии детектоpно-аpхаического дистpибутивного обpаза в
+                    \rГилбеpтовом конвеpгенционном пpостpанстве, однако пpи паpаллельном колабоpационном анализе спектpогpафичеких
+                    \rмножеств, изомоpфно pелятивных к мультиполосным гипеpболическим паpаболоидам, интеpпpетиpующим
+                    \rантpопоцентpический многочлен Hео-Лагpанжа, возникает позиционный сигнификатизм гентильной теоpии психоанализа,
+                    \rв pезультате чего надо пpинять во внимание следующее: поскольку не только эзотеpический, но и экзистенциальный
+                    \rаппеpцепциониpованный энтpополог антецедентно пассивизиpованный высокоматеpиальной субстанцией, обладает
+                    \rпpизматической идиосинхpацией, но так как валентностный фактоp отpицателен, то и, соответственно,
+                    \rантагонистический дискpедитизм дегpадиpует в эксгибиционном напpавлении, поскольку, находясь в пpепубеpтатном
+                    \rсостоянии, пpактически каждый субьект, меланхолически осознавая эмбpиональную клаустоpофобию, может экстpаполиpовать
+                    \rлюбой пpоцесс интегpации и диффеpенциации в обоих напpавлениях, отсюда следует, что в pезультате синхpонизации,
+                    \rогpаниченной минимально допустимой интеpполяцией обpаза, все методы конвеpгенционной концепции тpебуют пpактически
+                    \rтpадиционных тpансфоpмаций неоколониализма.\n""",
+                 '\nКто это сейчс говорил О_о?' ],
+        someOtherFields: "This is not a quack! You should't see this!"
+]
 
 def closureQuack = { int miltiply, String... quacks ->
     String result = quacks.join(' ').toUpperCase()*miltiply
     result.trim()
 }
 
-def createStaticDucks = new StaticDuckBuilder()
+StaticDuckBuilder createStaticDucks = new StaticDuckBuilder()
 StaticDuck Lizzy = new StaticDuck()
+StaticDuck Dizzy = new StaticDuck()
+StaticDuck Shizzy = new StaticDuck()
+StaticDuck Grizly = new StaticDuck()
+StaticDuck DeadDuck = new StaticDuck()
 
 Map configLizzy = [
         name: 'Lizzy',
@@ -315,17 +380,55 @@ Map configLizzy = [
         quacking: {
             quack 'Quack!'
             quack 'Bla-Bla-Bla!'
-            say listOfQuacks
-            say 'Mu-u-u!'
-            shout "Врагу не сдается наш гордый 'Варяг'!"
-            sing "I'm a Scatman!"
-            shout mapOfQuacks
-            quack mapOfQuacksWitnList
-            sing closureQuack( 3, 'o!', 'yeah! ' )
+            shout listOfQuacks
+        }
+]
+
+Map configDizzy = [
+        name: 'Dizzy',
+        isFlying: true,
+        quacking: {
+            sing mapOfQuacks
+            sing closureQuack( 2, 'yeah!', 'ugu! ' )
+        }
+]
+
+Map configShizzy = [
+        name: 'Shizzy',
+        isFlying: false,
+        quacking: {
+            say mapOfQuacksWitnList
+        }
+]
+
+Map configGrizly = [
+        name: 'Grizly',
+        isFlying: false,
+        quacking: {
+            hi 'Ку-ку!'
+        }
+]
+
+Map configDeadDuck = [
+        name: 'DeadDuck',
+        isFlying: false,
+        quacking: {
             hi 'Ку-ку!'
         }
 ]
 
 createStaticDucks.build( Lizzy, configLizzy )
+createStaticDucks.build( Dizzy, configDizzy )
+createStaticDucks.build( Shizzy, configShizzy )
+createStaticDucks.build( Grizly, configGrizly )
+createStaticDucks.build( DeadDuck, configDeadDuck )
+
 Lizzy.quacks()
-Lizzy.laughs()
+println()
+Dizzy.sings()
+println()
+Shizzy.speaks()
+println()
+Grizly.quacks()
+println()
+DeadDuck.laughs()

@@ -10,12 +10,15 @@ class DynamicDuck {
     def quacks = []
     def isFlying = false
 
+    // Ћибо летим, либо идем
     def fly = { -> if ( isFlying ) 'flies' else 'walks' }
 
     def methodMissing( String name, arguments ) {
         if ( name in [ 'quacks', 'sings', 'speaks' ] ) {
+            // ≈сли разрешенные действи€ - значит делаем
             println "The DYNAMIC duck ${ this.name.toUpperCase() }" + " ${ fly } and " + "$name: ${ quacks.join(' ') }"
         } else {
+            // ≈сли нет - значит, сорее всего, нас подстрелили :)
             println "The DYNAMIC duck ${ this.name.toUpperCase() }" + " was shooted by hunter and can't " + "$name. RIP :("
         }
     }
@@ -74,6 +77,8 @@ class DynamicDuckBuilder {
     }
 
     // √оворим, поем, громко кричим разными способами
+    // “еоретически можно самым наглым образом описать поведение дл€ разных вариантов кр€ков/кричалок/свистелок
+    // Ќе стал извращатьс€ дл€ компактности кода и привел все просто к одному поведению
     def methodMissing( String name, arguments ) {
         if ( name in [ 'say', 'shout', 'sing' ] ) {
             arguments.each { it ->
