@@ -3,6 +3,7 @@
  * Динамические утки
  * Идея взята у mrhaki здесь - http://mrhaki.blogspot.com/2011/11/groovy-goodness-create-simple-builders.html
  */
+
 // Динамическая утка
 class DynamicDuck {
     def name = ''
@@ -13,28 +14,29 @@ class DynamicDuck {
 
     def methodMissing( String name, arguments ) {
         if ( name in [ 'quacks', 'sings', 'speaks' ] ) {
-            println "The DYNAMIC duck ${this.name.toUpperCase()}" + " ${fly} and " + "$name: ${quacks.join(' ')}"
+            println "The DYNAMIC duck ${ this.name.toUpperCase() }" + " ${ fly } and " + "$name: ${ quacks.join(' ') }"
+        } else {
+            println "The DYNAMIC duck ${ this.name.toUpperCase() }" + " was shooted by hunter and can't " + "$name. RIP :("
         }
     }
 }
 
 // Класс для кряканья по умолчанию
-class Quacks {
+// В данном примере отличается от остального кряканья лишь наличием префикса "message", но можно изменть как угодно
+class DynamicQuacks {
     def quacks
 
     String toString() {
+        def message = 'QUACK - '
         switch ( quacks ) {
-            case String:
-                quacks.toString()
+            case { it instanceof String || it instanceof Closure }:
+                message + quacks
                 break
             case List:
-                quacks.join(' ')
+                message + quacks.join(' ')
                 break
             case Map:
-                quacks = ( quacks['quack'] instanceof List ) ? quacks['quack'].join(' ') : quacks['quack']
-                break
-            case Closure:
-                quacks << quacks
+                quacks = ( quacks['quack'] instanceof List ) ? message + quacks['quack'].join(' ') : message + quacks['quack']
                 break
         }
     }
@@ -45,7 +47,7 @@ class DynamicDuckBuilder {
     DynamicDuck dynamicDuck
 
     // Собственно, "конструктор"
-    DynamicDuck build( Closure definition ) {
+    DynamicDuck build( definition ) {
         dynamicDuck = new DynamicDuck()
         runClosure definition
         dynamicDuck
@@ -62,18 +64,18 @@ class DynamicDuckBuilder {
     }
 
     // Собственно крякаем согласно условиям
-    void quacking( Closure quacks ) {
+    void quacking( quacks ) {
         runClosure quacks
     }
 
     // Крякаем по умолчанию
     void quack( quack ) {
-        dynamicDuck.quacks << new Quacks( quacks: quack )
+        dynamicDuck.quacks << new DynamicQuacks( quacks: quack )
     }
 
-    // Крякаем разными способами
+    // Говорим, поем, громко кричим разными способами
     def methodMissing( String name, arguments ) {
-        if ( name in [ 'say', 'loud', 'sing' ] ) {
+        if ( name in [ 'say', 'shout', 'sing' ] ) {
             arguments.each { it ->
                 switch ( it ) {
                     case { it instanceof String || it instanceof Closure }:
@@ -93,7 +95,7 @@ class DynamicDuckBuilder {
     }
 
     // Попытка разобраться с делегатами
-    private runClosure( Closure runClosure ) {
+    private runClosure( runClosure ) {
         runClosure.delegate = this
         runClosure.resolveStrategy = Closure.DELEGATE_ONLY
         runClosure()

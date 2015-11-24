@@ -6,6 +6,7 @@ import groovy.transform.TypeCheckingMode
 import groovy.transform.CompileStatic
 import groovy.transform.TupleConstructor
 
+// проверка примеров из лекции
 // Difference between @TypeChecked and @CompileStatic
 //-----------------------------------------------------------
 @TypeChecked
@@ -239,8 +240,11 @@ someClass.someSafeMethod()
 someClass.someMethodUsingLocalVariable()
 //-----------------------------------------------------------
 
+//-----------------------------------------------------------
 // Ducks :)
-class CreateDucks {
+// Просто класс для создания енскольких динамических уток
+//-----------------------------------------------------------
+class CreateDynamicDucks {
     // Список кряканья
     def listOfQuacks = [ 'Ha-ha-ha!', "I'm a crazy dack! O_o" ]
     // Карта кряканья со значением кряков в строке
@@ -256,7 +260,8 @@ class CreateDucks {
 
     // Крякаем по замыканию
     def closureQuack = { miltiply, ... quacks ->
-        quacks.join(' ').toUpperCase()*miltiply
+        def result = quacks.join(' ').toUpperCase()*miltiply
+        result.trim()
     }
 
     // Собственно создаем динамическую утку
@@ -268,9 +273,9 @@ class CreateDucks {
             quack 'Bla-Bla-Bla!'
             say this.listOfQuacks
             say 'Mu-u-u!'
-            loud "Врагу не сдается наш гордый 'Варяг'!"
-            sing "I'm a Scatman!"
-            loud this.mapOfQuacks
+            shout "Врагу не сдается наш гордый 'Варяг'!"
+            shout "I'm a Scatman!"
+            shout this.mapOfQuacks
             quack this.mapOfQuacksWitnList
             sing this.closureQuack( 3, 'o!', 'yeah! ' )
             hi 'Ку-ку!'
@@ -282,5 +287,45 @@ println """\n-------------------------------------------------------------------
 \r-------------------- А теперь будут утки :) -----------------------
 \r-------------------------------------------------------------------\n"""
 
-def createDucks = new CreateDucks()
-createDucks.dynamicDuckLizzy.quacks()
+//-----------------------------------------------------------
+// Сначала динамические
+//-----------------------------------------------------------
+def createDynamicDucks = new CreateDynamicDucks()
+createDynamicDucks.dynamicDuckLizzy.quacks()
+createDynamicDucks.dynamicDuckLizzy.laughs()
+
+//-----------------------------------------------------------
+// Теперь статические
+//-----------------------------------------------------------
+List< String > listOfQuacks = [ "Ha-ha-ha!", "I'm a crazy dack! O_o" ]
+LinkedHashMap< String, String > mapOfQuacks = [ quack: "Hop-hey-la-la-ley!", someFields: "This is not a quack! You should't see this!" ]
+LinkedHashMap< String, Object > mapOfQuacksWitnList = [ quack: [ 'С точки зрения теории относительности все мы лишь маленькие песчинки в огромной Вселенной.', 'Что вы думаете о корпускулярно-волновой природе света?' ], someOtherFields: "This is not a quack! You should't see this!" ]
+
+def closureQuack = { int miltiply, String... quacks ->
+    String result = quacks.join(' ').toUpperCase()*miltiply
+    result.trim()
+}
+
+def createStaticDucks = new CreateStaticDucks()
+StaticDuck Lizzy = new StaticDuck()
+
+Map configLizzy = [
+        name: 'Lizzy',
+        isFlying: true,
+        quacking: {
+            quack 'Quack!'
+            quack 'Bla-Bla-Bla!'
+            say listOfQuacks
+            say 'Mu-u-u!'
+            shout "Врагу не сдается наш гордый 'Варяг'!"
+            sing "I'm a Scatman!"
+            shout mapOfQuacks
+            quack mapOfQuacksWitnList
+            sing closureQuack( 3, 'o!', 'yeah! ' )
+            hi 'Ку-ку!'
+        }
+]
+
+createStaticDucks.createStaticDuck( Lizzy, configLizzy )
+Lizzy.quacks()
+Lizzy.laughs()
