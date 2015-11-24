@@ -6,12 +6,14 @@ import groovy.transform.TypeChecked
  */
 
 @TypeChecked
+// Статическая утка
 class StaticDuck {
     String name = ''
     boolean isFlying = false
     List< String > quacks = []
     def quacking
 
+    // Вызываем статические кряканья
     void quack( Closure quack ) {
         StaticQuacks qua = new StaticQuacks()
         qua.quack( quack )
@@ -33,6 +35,7 @@ class StaticDuck {
 }
 
 @TypeChecked
+// Класс, создающий статичесике кряканья
 class StaticQuacks {
     List< String > quacks = []
 
@@ -70,8 +73,9 @@ class StaticQuacks {
 }
 
 @TypeChecked
-class CreateStaticDucks {
-    void createStaticDuck( StaticDuck duck, Map definition ) {
+// Билдер для статической утки
+class StaticDuckBuilder {
+    void build( StaticDuck duck, Map definition ) {
         duck.with {
             name = definition['name']
             isFlying = definition['isFlying']

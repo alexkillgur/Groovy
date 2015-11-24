@@ -306,7 +306,7 @@ def closureQuack = { int miltiply, String... quacks ->
     result.trim()
 }
 
-def createStaticDucks = new CreateStaticDucks()
+def createStaticDucks = new StaticDuckBuilder()
 StaticDuck Lizzy = new StaticDuck()
 
 Map configLizzy = [
@@ -326,6 +326,6 @@ Map configLizzy = [
         }
 ]
 
-createStaticDucks.createStaticDuck( Lizzy, configLizzy )
+createStaticDucks.build( Lizzy, configLizzy )
 Lizzy.quacks()
 Lizzy.laughs()
