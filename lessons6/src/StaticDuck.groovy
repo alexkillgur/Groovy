@@ -57,7 +57,6 @@ class StaticQuacks {
                         quacks << q.join(' ')
                         break
                     case Map:
-
                         quacks += ( it['quack'] instanceof List ) ? it['quack'].join(' ') : it['quack'].toString()
                         break
                 }
