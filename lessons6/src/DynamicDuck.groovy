@@ -25,7 +25,7 @@ class DynamicDuck {
 }
 
 //  ласс дл€ кр€кань€ по умолчанию
-// ¬ данном примере отличаетс€ от остального кр€кань€ лишь наличием префикса "message", но можно изменть как угодно
+// ¬ данном примере отличаетс€ от остального кр€кань€ лишь наличием префикса "message", но можно изменить как угодно
 class DynamicQuacks {
     def quacks
 
@@ -95,7 +95,7 @@ class DynamicDuckBuilder {
                 }
             }
         } else {
-            dynamicDuck.quacks << "Listen, dude! I'm only the duck - i can't do this! :)"
+            dynamicDuck.quacks << "Listen, dude! I'm only the duck - i can't quack this! :)"
         }
     }
 

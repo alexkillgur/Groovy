@@ -63,7 +63,12 @@ assert concat( 1, 2 ) == 3
 class SentenceBuilder {
     def storage = []
 
-    def propertyMissing( String name ) { storage << name }
+    def propertyMissing( String name ) {
+        storage << name
+//        println this
+//        println this.class.name
+        return this
+    }
 
     String toString() {
         storage.join(' ')
@@ -79,14 +84,17 @@ class GreetingService {
     @TypeChecked( TypeCheckingMode.SKIP )
     private String doGreet() {
         def b = new SentenceBuilder()
-        b.with {
-            Hello
-            my
-            name
-            is
-            John
-        }
+        b.Hello.my.name.is.John
         b
+        // Но и так работает
+//        b.with {
+//            Hello
+//            my
+//            name
+//            is
+//            John
+//        }
+//        b
     }
 }
 
@@ -367,7 +375,7 @@ def closureQuack = { int miltiply, String... quacks ->
     result.trim()
 }
 
-StaticDuckBuilder createStaticDucks = new StaticDuckBuilder()
+StaticDuckBuilder staticDuckBuilder = new StaticDuckBuilder()
 StaticDuck Lizzy = new StaticDuck()
 StaticDuck Dizzy = new StaticDuck()
 StaticDuck Shizzy = new StaticDuck()
@@ -417,11 +425,11 @@ Map configDeadDuck = [
         }
 ]
 
-createStaticDucks.build( Lizzy, configLizzy )
-createStaticDucks.build( Dizzy, configDizzy )
-createStaticDucks.build( Shizzy, configShizzy )
-createStaticDucks.build( Grizly, configGrizly )
-createStaticDucks.build( DeadDuck, configDeadDuck )
+staticDuckBuilder.build( Lizzy, configLizzy )
+staticDuckBuilder.build( Dizzy, configDizzy )
+staticDuckBuilder.build( Shizzy, configShizzy )
+staticDuckBuilder.build( Grizly, configGrizly )
+staticDuckBuilder.build( DeadDuck, configDeadDuck )
 
 Lizzy.quacks()
 println()

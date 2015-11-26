@@ -62,7 +62,7 @@ class StaticQuacks {
                 }
             }
         } else {
-            quacks << "Listen, dude! I'm only the duck - i can't do this! :)"
+            quacks << "Listen, dude! I'm only the duck - i can't quack this! :)"
         }
     }
 
@@ -82,9 +82,9 @@ class StaticQuacks {
 class StaticDuckBuilder {
     void build( StaticDuck duck, Map definition ) {
         duck.with {
-            name = definition['name']
-            isFlying = definition['isFlying']
-            quacking = definition['quacking']
+            name = definition[ 'name' ]
+            isFlying = definition[ 'isFlying' ]
+            quacking = definition[ 'quacking' ]
         }
     }
 }
