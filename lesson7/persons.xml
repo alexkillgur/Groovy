@@ -1,0 +1,62 @@
+<persons>
+  <person firstName='Aleksey' lastName='Shashlyuk' dateOfBirth='09.04.1981'>
+    <address>
+      <postalCode>18030</postalCode>
+      <country>Ukraine</country>
+      <city>Cherkassy</city>
+      <street>Ryabokonya</street>
+      <house>31</house>
+      <flat>41</flat>
+      <phones>
+        <phone>+38(0472) 73-32-00</phone>
+        <phone>+38(093) 406-98-60</phone>
+      </phones>
+    </address>
+    <curses>
+      <curse name='Groovy'>true</curse>
+      <curse name='Jawa for Web'>true</curse>
+      <curse name='Jawa Script'>false</curse>
+    </curses>
+  </person>
+  <person firstName='Vas&apos;ka' lastName='Kurolesov' dateOfBirth='01.01.1991'>
+    <address>
+      <postalCode>18000</postalCode>
+      <country>Ukraine</country>
+      <city>Lvov</city>
+      <street>Banderivs'ka</street>
+      <house>1</house>
+      <flat>1</flat>
+      <phones>
+        <phone>+38(0322) 11-22-33</phone>
+        <phone>+38(097) 444-44-44</phone>
+      </phones>
+    </address>
+    <curses>
+      <curse name='Groovy'>true</curse>
+      <curse name='Jawa for Web'>false</curse>
+      <curse name='Jawa Script'>true</curse>
+      <curse name='Ruby on Rails'>true</curse>
+    </curses>
+  </person>
+  <person firstName='Arnold' lastName='Schwarzenegger' dateOfBirth='30.07.1947'>
+    <address>
+      <postalCode>18000</postalCode>
+      <country>USA</country>
+      <city>LA</city>
+      <street>Terminator-str.</street>
+      <house>1</house>
+      <flat>1</flat>
+      <phones>
+        <phone>+1(209) 111-11-11</phone>
+        <phone>+1(818) 111-11-11</phone>
+      </phones>
+    </address>
+    <curses>
+      <curse name='Ruby on Rails'>false</curse>
+      <curse name='Advansed PHP'>false</curse>
+      <curse name='Jawa Script'>false</curse>
+      <curse name='Barbell Bench Press'>true</curse>
+      <curse name='Destroing All the Enimies'>true</curse>
+    </curses>
+  </person>
+</persons>
