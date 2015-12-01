@@ -106,7 +106,7 @@ def xmlPersonsFile = new File( baseDir, 'persons.xml' )
 def writerForPersons = new FileWriter( xmlPersonsFile )
 def xmlBuilderForPersons = new MarkupBuilder( writerForPersons )
 
-// ׁענמטעל XML פאיכ
+// ׁענמטל XML פאיכ
 xmlBuilderForPersons.persons() {
     xmlPersonBuilder( xmlBuilderForPersons, person01 )
     xmlPersonBuilder( xmlBuilderForPersons, person02 )
