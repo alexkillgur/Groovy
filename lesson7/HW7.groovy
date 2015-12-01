@@ -5,6 +5,7 @@
 import groovy.xml.MarkupBuilder
 import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
+import groovy.text.SimpleTemplateEngine
 
 // класс дл€ описани€ особы
 class Person {
@@ -121,14 +122,6 @@ assert person.address.postalCode == '18030'
 assert person.curses.curse[0].@name == 'Groovy'
 assert person.curses.curse[0] == true
 
-listOfPersons.person.each {it ->
-    println "${ it.@firstName }"
-    println "$it.address.postalCode"
-    it.curses.curse.each { curse ->
-        if ( curse == true ) println "${ curse.@name } - $curse"
-    }
-}
-
 // –азные поиски
 def result = listOfPersons.'*'.findAll { node ->
     node.name() == 'person' && node.@firstName == 'Aleksey'
@@ -198,3 +191,43 @@ assert objectPerson.curses['Jawa Script'] == false
 //json = JsonOutput.toJson( person03 )
 //println JsonOutput.prettyPrint( json )
 
+//def person = listOfPersons.person[0]
+assert person.@firstName == 'Aleksey'
+assert person.address.phones.phone[1] == '+38(093) 406-98-60'
+assert person.address.postalCode == '18030'
+assert person.curses.curse[0].@name == 'Groovy'
+assert person.curses.curse[0] == true
+
+def engine = new SimpleTemplateEngine()
+def tplInviteFile = new File( baseDir, 'invite.tpl' )
+
+listOfPersons.person.each { it ->
+    def cursesMap = [:]
+
+    it.curses.curse.each { curse ->
+        cursesMap.put( curse.@name, curse )
+    }
+
+    def phones = [:]
+
+    phones.put( 'tel', it.address.phones.phone[0] )
+    phones.put( 'mobile', it.address.phones.phone[1] )
+
+    def binding = [
+            postalCode: it.address.postalCode,
+            country: it.address.country,
+            city: it.address.city,
+            street: it.address.street,
+            house: it.address.house,
+            flat: it.address.flat,
+            phones: phones,
+            firstName: it.@firstName,
+            lastName: it.@lastName,
+            curses: cursesMap,
+            date: new Date().parse( 'dd/MM/yyyy', '21/12/2015' ).format( 'dd.MM.yyyy' )
+    ]
+
+    def template = engine.createTemplate( tplInviteFile ).make( binding )
+    println template.toString()
+    println '--------------------------------------------------------------------'
+}
