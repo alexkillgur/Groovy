@@ -30,6 +30,8 @@ def xmlPersonBuilder( MarkupBuilder builder, Person person ) {
             flat( person.address.flat )
             phones {
                 person.phones.each { 'phone'( it ) }
+//                phone( person.phones[0] )
+//                mobile( person.phones[1] )
             }
         }
         curses {
@@ -191,13 +193,7 @@ assert objectPerson.curses['Jawa Script'] == false
 //json = JsonOutput.toJson( person03 )
 //println JsonOutput.prettyPrint( json )
 
-//def person = listOfPersons.person[0]
-assert person.@firstName == 'Aleksey'
-assert person.address.phones.phone[1] == '+38(093) 406-98-60'
-assert person.address.postalCode == '18030'
-assert person.curses.curse[0].@name == 'Groovy'
-assert person.curses.curse[0] == true
-
+// Простенькое письмо на SimpleTemplateEngine
 def engine = new SimpleTemplateEngine()
 def tplInviteFile = new File( baseDir, 'invite.tpl' )
 
@@ -208,10 +204,10 @@ listOfPersons.person.each { it ->
         cursesMap.put( curse.@name, curse )
     }
 
-    def phones = [:]
+    def phonesMap = [:]
 
-    phones.put( 'tel', it.address.phones.phone[0] )
-    phones.put( 'mobile', it.address.phones.phone[1] )
+    phonesMap.put( 'tel', it.address.phones.phone[0] )
+    phonesMap.put( 'mobile', it.address.phones.phone[1] )
 
     def binding = [
             postalCode: it.address.postalCode,
@@ -220,7 +216,7 @@ listOfPersons.person.each { it ->
             street: it.address.street,
             house: it.address.house,
             flat: it.address.flat,
-            phones: phones,
+            phones: phonesMap,
             firstName: it.@firstName,
             lastName: it.@lastName,
             curses: cursesMap,

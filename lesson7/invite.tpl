@@ -2,7 +2,7 @@ Street: $street, house: $house, flat: $flat
 $city
 $country
 $postalCode
-<% print 'tel.: ' + phones['tel'] + ', mobile: ' + phones['mobile'] %>
+<% print "tel.: $phones.tel, mobile: $phones.mobile" %>
 
 Dear $firstName $lastName!
 
