@@ -13,7 +13,7 @@ class Circle {
     def centerY
     def radius
 
-    def popintInCircle( pointX, pointY ) {
+    def pointInCircle( pointX, pointY ) {
         if ( Math.sqrt( ( centerX - pointX )**2 + ( centerY - pointY )**2 ) <= radius )
             return true
         else

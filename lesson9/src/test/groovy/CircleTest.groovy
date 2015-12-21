@@ -2,11 +2,13 @@
  * Created by Killgur on 21.12.2015.
  */
 class CircleTest extends spock.lang.Specification {
-    def "PopintInCircle"() {
+    def "Point In Circle"() {
         expect:
-            pointInCircle == true
+            pointInCircle == inCircle
 
         where:
-            pointInCircle = new Circle( 0, 0, 5 ).popintInCircle( 3, 3 )
+            pointInCircle                               | inCircle
+            new Circle( 0, 0, 5 ).pointInCircle( 3, 3 ) | true
+            new Circle( 0, 0, 5 ).pointInCircle( 5, 5 ) | false
     }
 }
