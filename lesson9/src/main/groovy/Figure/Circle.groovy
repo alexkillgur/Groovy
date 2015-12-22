@@ -1,3 +1,5 @@
+package Figure
+
 import groovy.transform.TupleConstructor
 
 /**
@@ -8,7 +10,7 @@ import groovy.transform.TupleConstructor
  */
 
 @TupleConstructor
-class Circle {
+class Circle extends Figure {
     def centerX
     def centerY
     def radius
@@ -16,7 +18,10 @@ class Circle {
     def pointInCircle( pointX, pointY ) {
         if ( Math.sqrt( ( centerX - pointX )**2 + ( centerY - pointY )**2 ) <= radius )
             return true
-        else
-            return false
+        return false
+    }
+
+    def getSquare(){
+        Math.PI*radius**2
     }
 }
