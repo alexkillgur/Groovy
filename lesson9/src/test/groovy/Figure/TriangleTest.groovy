@@ -38,6 +38,6 @@ class TriangleTest extends Specification {
         where:
             squareOfTriangle               | square
             new Triangle( 2, 2, 2 ).square | Math.sqrt( 3 )
-            new Triangle( 3, 4, 5 ).square | 6.0
+            new Triangle( 3, 4, 5 ).square | 6
     }
 }
