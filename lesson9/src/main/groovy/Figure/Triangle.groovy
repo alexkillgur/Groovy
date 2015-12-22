@@ -28,6 +28,6 @@ class Triangle extends Figure {
 
     def getSquare(){
         def hafPerimeter = ( sideA + sideB + sideC )/2
-        Math.sqrt( hafPerimeter*( hafPerimeter - sideA )*( hafPerimeter - sideB )*( hafPerimeter - sideC ) )
+        Math.sqrt( hafPerimeter * ( hafPerimeter - sideA ) * ( hafPerimeter - sideB ) * ( hafPerimeter - sideC ) )
     }
 }

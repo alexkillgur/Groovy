@@ -22,6 +22,6 @@ class Circle extends Figure {
     }
 
     def getSquare(){
-        Math.PI*radius**2
+        Math.PI * radius**2
     }
 }
